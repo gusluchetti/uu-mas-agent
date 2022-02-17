@@ -1,17 +1,14 @@
-import genius.core.actions.Action;
-import genius.core.parties.AbstractNegotiationParty;
+import genius.core.boaframework.AcceptanceStrategy;
+import genius.core.boaframework.Actions;
 
-import java.util.List;
-
-public class Group7 extends AbstractNegotiationParty {
-
+public class Group7_AS extends AcceptanceStrategy {
     @Override
-    public Action chooseAction(List<Class<? extends Action>> possibleActions) {
+    public Actions determineAcceptability() {
         return null;
     }
 
     @Override
-    public String getDescription() {
+    public String getName() {
         return null;
     }
 }

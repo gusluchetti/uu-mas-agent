@@ -1,17 +1,20 @@
-import genius.core.actions.Action;
-import genius.core.parties.AbstractNegotiationParty;
-
+import genius.core.bidding.BidDetails;
+import genius.core.boaframework.OMStrategy;
 import java.util.List;
 
-public class Group7 extends AbstractNegotiationParty {
-
+public class Group7_OMS extends OMStrategy {
     @Override
-    public Action chooseAction(List<Class<? extends Action>> possibleActions) {
+    public BidDetails getBid(List<BidDetails> bidsInRange) {
         return null;
     }
 
     @Override
-    public String getDescription() {
+    public boolean canUpdateOM() {
+        return false;
+    }
+
+    @Override
+    public String getName() {
         return null;
     }
 }

@@ -1,17 +1,9 @@
-import genius.core.actions.Action;
-import genius.core.parties.AbstractNegotiationParty;
+import genius.core.Bid;
+import genius.core.boaframework.OpponentModel;
 
-import java.util.List;
-
-public class Group7 extends AbstractNegotiationParty {
-
+public class Group7_OM extends OpponentModel{
     @Override
-    public Action chooseAction(List<Class<? extends Action>> possibleActions) {
-        return null;
-    }
+    protected void updateModel(Bid bid, double time) {
 
-    @Override
-    public String getDescription() {
-        return null;
     }
 }

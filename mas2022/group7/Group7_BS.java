@@ -1,17 +1,19 @@
-import genius.core.actions.Action;
-import genius.core.parties.AbstractNegotiationParty;
+import genius.core.bidding.BidDetails;
+import genius.core.boaframework.OfferingStrategy;
 
-import java.util.List;
-
-public class Group7 extends AbstractNegotiationParty {
-
+public class Group7_BS extends OfferingStrategy{
     @Override
-    public Action chooseAction(List<Class<? extends Action>> possibleActions) {
+    public BidDetails determineOpeningBid() {
         return null;
     }
 
     @Override
-    public String getDescription() {
+    public BidDetails determineNextBid() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
         return null;
     }
 }
