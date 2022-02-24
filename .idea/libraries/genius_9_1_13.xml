@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="genius-9.1.13">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Desktop/Programs/genius-9.1.13/genius-9.1.13.jar!/" />
+      <root url="jar://D:\GeniusAPI/genius-9.1.13.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/Desktop/Programs/genius-9.1.13/genius-9.1.13.jar!/" />
+      <root url="jar://D:\GeniusAPI/genius-9.1.13.jar!/" />
     </SOURCES>
   </library>
 </component>
