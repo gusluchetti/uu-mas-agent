@@ -1,0 +1,4 @@
+sep=;
+Run time (s);Round;Exception;deadline;Agreement;Discounted;#agreeing;min.util.;max.util.;Dist. to Pareto;Dist. to Nash;Social Welfare;Agent 1;Agent 2;Utility 1;Utility 2;Disc. Util. 1;Disc. Util. 2;Perceived. Util. 1;Perceived. Util. 2;User Bother 1;User Bother 2;User Util. 1;User Util. 2;Profile 1;Profile 2
+0.568;8;;60rounds;Yes;No;2;0.68667;0.80083;0.11880;0.15352;1.48750;ConcederNegotiationParty@15;IAMhaggler2011@16;0.6866666666666666;0.8008333333333333;0.6866666666666666;0.8008333333333333;0.6866666666666666;0.0;0.0;0.0;0.6866666666666666;0.8008333333333333;Amsterdam_party1.xml;Amsterdam_party2.xml
+0.162;11;;60rounds;Yes;No;2;0.65917;0.73500;0.16225;0.21841;1.39417;IAMhaggler2011@17;ConcederNegotiationParty@18;0.735;0.6591666666666666;0.735;0.6591666666666666;0.0;0.6591666666666666;0.0;0.0;0.735;0.6591666666666666;Amsterdam_party1.xml;Amsterdam_party2.xml
