@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome currentTime="Tue Mar 01 12:45:01 CET 2022" timeOfAgreement="0.9016393442622951" lastAction="(Accept  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 stars])" domain="etc/templates/q1_domain/q1_domain.xml" bids="108" runtime="0.1378706" finalOutcome="Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 stars]" startingAgent="RandomBidderExample@4" deadline="60rounds">
+<resultsOfAgent agent="RandomBidderExample@4" agentDesc="Places random bids &gt;= 0.8" utilspace="etc/templates/q1_domain/q1a_utility.xml" agentClass="bilateralexamples.RandomBidderExample80" userUtility="0.3902915574954751" finalUtility="0.3902915574954751" discountedUtility="0.3902915574954751" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+<resultsOfAgent agent="RandomBidderExample@5" agentDesc="Places random bids &gt;= 0.8" utilspace="etc/templates/q1_domain/q1b_utility.xml" agentClass="bilateralexamples.RandomBidderExample80" userUtility="1.0" finalUtility="1.0" discountedUtility="1.0" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+</NegotiationOutcome></Session>

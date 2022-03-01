@@ -1,7 +1,5 @@
 package bilateralexamples;
 
-import java.util.List;
-
 import genius.core.AgentID;
 import genius.core.Bid;
 import genius.core.actions.Accept;
@@ -12,14 +10,16 @@ import genius.core.parties.AbstractNegotiationParty;
 import genius.core.parties.NegotiationInfo;
 import genius.core.utility.AbstractUtilitySpace;
 
+import java.util.List;
+
 /**
  * A simple example agent that makes random bids above a minimum target utility. 
  *
  * @author Tim Baarslag
  */
-public class RandomBidderExample extends AbstractNegotiationParty 
+public class RandomBidderExample60 extends AbstractNegotiationParty
 {
-	private static double MINIMUM_TARGET = 0.8;
+	private static double MINIMUM_TARGET = 0.6;
 	private Bid lastOffer;
 
 	/**

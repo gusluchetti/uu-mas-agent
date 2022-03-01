@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome currentTime="Tue Mar 01 12:42:26 CET 2022" lastAction="(EndNegotiation)" domain="etc/templates/partydomain/party_domain.xml" bids="0" runtime="7.8488815" finalOutcome="-" startingAgent="UIAgent@0" deadline="60rounds">
+<resultsOfAgent agent="UIAgent@0" agentDesc="Simple human user interface to place bids" utilspace="etc/templates/partydomain/party1_utility.xml" agentClass="agents.UIAgent" userUtility="0.0" finalUtility="0.0" discountedUtility="0.0" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+<resultsOfAgent agent="UIAgent@1" agentDesc="Simple human user interface to place bids" utilspace="etc/templates/partydomain/party2_utility.xml" agentClass="agents.UIAgent" userUtility="0.0" finalUtility="0.0" discountedUtility="0.0" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+</NegotiationOutcome></Session>
