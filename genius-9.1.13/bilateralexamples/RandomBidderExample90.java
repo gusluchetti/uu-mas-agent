@@ -17,7 +17,7 @@ import genius.core.utility.AbstractUtilitySpace;
  *
  * @author Tim Baarslag
  */
-public class RandomBidderExample80 extends AbstractNegotiationParty
+public class RandomBidderExample90 extends AbstractNegotiationParty
 {
 	private static double MINIMUM_TARGET = 0.8;
 	private Bid lastOffer;

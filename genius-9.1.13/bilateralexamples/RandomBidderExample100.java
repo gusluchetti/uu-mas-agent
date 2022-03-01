@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Tim Baarslag
  */
-public class RandomBidderExample90 extends AbstractNegotiationParty
+public class RandomBidderExample100 extends AbstractNegotiationParty
 {
 	private static double MINIMUM_TARGET = 0.9;
 	private Bid lastOffer;
