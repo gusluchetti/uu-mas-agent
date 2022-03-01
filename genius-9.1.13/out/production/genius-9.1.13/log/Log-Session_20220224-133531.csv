@@ -1,3 +1,0 @@
-1,1,0.01639344262295082,SimpleAgent@2,(Offer  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 3 stars])
-1,2,0.01639344262295082,CounterOfferHumanNegotiationParty@3,(Accept  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 3 stars])
-agreement,Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 3 stars],0.36003713215592026,0.9291789847797578

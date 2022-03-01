@@ -1,9 +1,0 @@
-<?xml version="1.0" ?><Session>
-<NegotiationOutcome currentTime="Thu Feb 17 15:32:56 CET 2022" lastAction="(EndNegotiation)" domain="etc/templates/partydomain/party_domain.xml" bids="53" runtime="86.8761201" finalOutcome="-" startingAgent="BoulwareNegotiationParty@5" deadline="60rounds">
-<resultsOfAgent agent="BoulwareNegotiationParty@5" agentDesc="Time-based agent" utilspace="etc/templates/partydomain/party1_utility.xml" agentClass="negotiator.parties.BoulwareNegotiationParty" userUtility="0.0" finalUtility="0.0" discountedUtility="0.0" discount="1.0" totalUserBother="0.0">
-</resultsOfAgent>
-<resultsOfAgent agent="RandomCounterOfferNegotiationParty@6" agentDesc="Place random bids until 90% of time" utilspace="etc/templates/partydomain/party2_utility.xml" agentClass="negotiator.parties.RandomCounterOfferNegotiationParty" userUtility="0.0" finalUtility="0.0" discountedUtility="0.0" discount="1.0" totalUserBother="0.0">
-</resultsOfAgent>
-<resultsOfAgent agent="CounterOfferHumanNegotiationParty@7" agentDesc="Simple Human user interface to place bids" utilspace="etc/templates/partydomain/party3_utility.xml" agentClass="negotiator.parties.CounterOfferHumanNegotiationParty" userUtility="0.0" finalUtility="0.0" discountedUtility="0.0" discount="1.0" totalUserBother="0.0">
-</resultsOfAgent>
-</NegotiationOutcome></Session>

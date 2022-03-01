@@ -1,7 +1,0 @@
-<?xml version="1.0" ?><Session>
-<NegotiationOutcome currentTime="Thu Feb 17 15:58:29 CET 2022" timeOfAgreement="0.7868852459016393" lastAction="(Accept  bid:Bid[price: 150000yen, DepartureAirPort: Narita, DepartureDate: Sep3_2011])" domain="etc/templates/anac/y2012/FlightBooking/FlightBooking-A-domain.xml" bids="94" runtime="49.846682" finalOutcome="Bid[price: 150000yen, DepartureAirPort: Narita, DepartureDate: Sep3_2011]" startingAgent="BoulwareNegotiationParty@11" deadline="60rounds">
-<resultsOfAgent agent="BoulwareNegotiationParty@11" agentDesc="Time-based agent" utilspace="etc/templates/anac/y2012/FlightBooking/FlightBooking-A-prof1.xml" agentClass="negotiator.parties.BoulwareNegotiationParty" userUtility="0.7375" finalUtility="0.7375" discountedUtility="0.7375" discount="1.0" totalUserBother="0.0">
-</resultsOfAgent>
-<resultsOfAgent agent="UIAgentExtended@12" agentDesc="Human user interface to place bids" utilspace="etc/templates/anac/y2012/FlightBooking/FlightBooking-A-prof2.xml" agentClass="agents.UIAgentExtended" userUtility="0.5216346683002959" finalUtility="0.8999999999999999" discountedUtility="0.5216346683002959" discount="0.5" totalUserBother="0.0">
-</resultsOfAgent>
-</NegotiationOutcome></Session>
