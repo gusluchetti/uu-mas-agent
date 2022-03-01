@@ -56,7 +56,29 @@ In our example, the only vertices of the Pareto front are A, B, and D. A is the 
 
 Now, it is clear that the Nash solution does not lie on the line segment $AB$, so it lies on the line segment $BD$. Some elementary math tells us that the utility values are $(7.65,7.65)$ and the solution is $0.4125B+0.58875D$, so if we will take $B$ with probability $0.4125$ and $D$ with probability $0.5887$, we get the highest product of expected utilities.
 
-\item We can conclude that the Pareto Optimal Outcome is not (usually) reached, since the bids being made are random. Below we can see images of the Random Bidders negotiating against themselves with varying minimum-targets, from lowest (0.20) to highest (100)
+\item We can conclude that the Pareto Optimal Outcome is not (usually) reached, since the bids being made are random. The following figures (3 through 6) graph the Random Bidders negotiations against themselves with varying minimum-targets.
+
+\begin{figure}[ht]
+  \minipage{0.50\textwidth}
+  \includegraphics[width=\linewidth]{imgs/rb_20}
+  \caption{Minimum Bidding Target = 0.20}
+  \endminipage\hfill
+  \minipage{0.50\textwidth}
+  \includegraphics[width=\linewidth]{imgs/rb_60}
+  \caption{Minimum Bidding Target = 0.60}
+  \endminipage\hfill
+\end{figure}
+
+\begin{figure}[ht]
+  \minipage{0.50\textwidth}
+  \includegraphics[width=\linewidth]{imgs/rb_80}
+  \caption{Minimum Bidding Target = 0.80}
+  \endminipage\hfill
+  \minipage{0.50\textwidth}
+  \includegraphics[width=\linewidth]{imgs/rb_100}
+  \caption{Minimum Bidding Target = 1.00}
+  \endminipage\hfill
+\end{figure}
 
 \end{enumerate} % If we need more than two pages we can separate the title page or put figures 1 and 2 in an appendix (in that case make both landscape and very large)
 \end{document}
