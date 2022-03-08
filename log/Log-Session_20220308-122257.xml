@@ -1,0 +1,9 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome exception="Failed to execute protocol: Negotiating party UIAgentExtended@2 timed out in chooseAction() method.: agent UIAgentExtended@2 passed deadline and was killed" currentTime="Tue Mar 08 12:23:57 CET 2022" lastAction="(Offer  bid:Bid[Food: Catering, Drinks: Handmade Cocktails, Location: Party Room, Invitations: Custom, Printed, Music: MP3, Cleanup: Water and Soap])" bids="2" runtime="60.0473082" deadline="60rounds">
+<resultsOfAgent agent="BoulwareNegotiationParty" utilspace="etc/templates/partydomain/party1_utility.xml" agentClass="negotiator.parties.BoulwareNegotiationParty" finalUtility="0.0" discountedUtility="0.0" discount="1.0">
+</resultsOfAgent>
+<resultsOfAgent agent="ConcederNegotiationParty" utilspace="etc/templates/partydomain/party2_utility.xml" agentClass="negotiator.parties.ConcederNegotiationParty" finalUtility="0.0" discountedUtility="0.0" discount="1.0">
+</resultsOfAgent>
+<resultsOfAgent agent="UIAgentExtended" utilspace="etc/templates/partydomain/party3_utility.xml" agentClass="agents.UIAgentExtended" finalUtility="0.0" discountedUtility="0.0" discount="1.0">
+</resultsOfAgent>
+</NegotiationOutcome></Session>

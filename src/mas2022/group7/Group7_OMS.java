@@ -1,3 +1,5 @@
+package bilateralexamples.mas2022.group7;
+
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.OMStrategy;
 import java.util.List;

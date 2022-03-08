@@ -1,3 +1,5 @@
+package bilateralexamples.mas2022.group7;
+
 import genius.core.boaframework.AcceptanceStrategy;
 import genius.core.boaframework.Actions;
 

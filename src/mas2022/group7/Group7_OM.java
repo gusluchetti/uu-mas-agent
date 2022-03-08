@@ -1,3 +1,5 @@
+package bilateralexamples.mas2022.group7;
+
 import genius.core.Bid;
 import genius.core.boaframework.OpponentModel;
 
