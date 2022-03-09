@@ -6,7 +6,7 @@ import genius.core.boaframework.OfferingStrategy;
 public class Group7_BS extends OfferingStrategy{
     @Override
     public BidDetails determineOpeningBid() {
-        return null;
+        return this.determineNextBid();
     }
 
     @Override
