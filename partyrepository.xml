@@ -462,6 +462,9 @@
             <partyRepItem classPath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\RandomBidderExample100.class" strategyParameters="">
                 <properties/>
             </partyRepItem>
+            <partyRepItem classPath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\RandomBidderExample99.class" strategyParameters="">
+                <properties/>
+            </partyRepItem>
         </partyRepItems>
         <domainRepItem/>
         <protocolRepItem/>
