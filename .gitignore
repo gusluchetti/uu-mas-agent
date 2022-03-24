@@ -180,7 +180,8 @@ fabric.properties
 # Compiled class file
 *.class
 
-# Log file
+# Log file(s)
+log/
 *.log
 
 # BlueJ files
