@@ -97,7 +97,18 @@ public class Group7_OM extends OpponentModel {
         @Override
         public void updateModel(Bid opponentBid, double time) {
             try {
-                model.updateBeliefs(opponentBid);
+                double maxTime = 200;
+                double timeStep = 0.5;
+                int i = 0;
+                if(time > 0){
+                    while (i <= maxTime && time <= maxTime){
+                        model.updateBeliefs(opponentBid);
+                        maxTime -= timeStep;
+                        i++;
+                        timeStep++;
+                    }
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
