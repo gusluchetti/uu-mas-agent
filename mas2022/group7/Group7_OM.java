@@ -30,7 +30,7 @@ import genius.core.utility.AdditiveUtilitySpace;
 public class Group7_OM extends OpponentModel {
 
     // This code was gotten from Bayesianopponentmodel.class
-    
+
     /**
      * Adapter for BayesianModel. Note that this model only works on small domains.
      *
