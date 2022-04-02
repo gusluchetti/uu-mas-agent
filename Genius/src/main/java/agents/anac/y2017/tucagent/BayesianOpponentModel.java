@@ -13,18 +13,20 @@ import genius.core.utility.EvaluatorDiscrete;
 import genius.core.utility.EvaluatorReal;
 
 public class BayesianOpponentModel extends OpponentModel {
-	private AdditiveUtilitySpace fUS;
-	private WeightHypothesis[] fWeightHyps;
-	private ArrayList<ArrayList<EvaluatorHypothesis>> fEvaluatorHyps;
-	private ArrayList<EvaluatorHypothesis[]> fEvalHyps;
-	private ArrayList<UtilitySpaceHypothesis> fUSHyps;
-	private boolean fUseMostProbableHypsOnly = false;
-	private ArrayList<UtilitySpaceHypothesis> fMostProbableUSHyps;
-	private double fPreviousBidUtility;
-	private double EXPECTED_CONCESSION_STEP = 0.035D;
-	private double SIGMA = 0.25D;
-	private boolean USE_DOMAIN_KNOWLEDGE = false;
-	List<Issue> issues;
+	public AdditiveUtilitySpace fUS;
+	public WeightHypothesis[] fWeightHyps;
+	public ArrayList<ArrayList<EvaluatorHypothesis>> fEvaluatorHyps;
+	public ArrayList<EvaluatorHypothesis[]> fEvalHyps;
+	public ArrayList<UtilitySpaceHypothesis> fUSHyps;
+	public boolean fUseMostProbableHypsOnly = false;
+	public ArrayList<UtilitySpaceHypothesis> fMostProbableUSHyps;
+	public double fPreviousBidUtility;
+	public double EXPECTED_CONCESSION_STEP = 0.035D;
+	public double SIGMA = 0.25D;
+	public boolean USE_DOMAIN_KNOWLEDGE = false;
+	public List<Issue> issues;
+	//added to transfer values across files
+	public double MaxProbabilityHyp = 0;
 
 	public BayesianOpponentModel(AdditiveUtilitySpace pUtilitySpace) {
 		if (pUtilitySpace == null)
@@ -170,7 +172,9 @@ public class BayesianOpponentModel extends OpponentModel {
 		buildUniformHyps();
 	}
 
-	private void buildUniformHyps() {
+
+
+	public void buildUniformHyps() {
 		fUSHyps = new ArrayList();
 		for (int i = 0; i < fWeightHyps.length; i++) {
 
@@ -186,7 +190,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		}
 	}
 
-	private void reverse(double[] P, int m) {
+	public void reverse(double[] P, int m) {
 		int i = 0;
 		int j = m;
 		while (i < j) {
@@ -198,7 +202,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		}
 	}
 
-	private Integer antilex(Integer index, WeightHypothesis[] hyps, double[] P, int m) {
+	public Integer antilex(Integer index, WeightHypothesis[] hyps, double[] P, int m) {
 		if (m == 0) {
 			WeightHypothesis lWH = new WeightHypothesis(fDomain);
 			for (int i = 0; i < P.length; i++)
@@ -219,7 +223,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		return index;
 	}
 
-	private double conditionalDistribution(double pUtility, double pPreviousBidUtility) {
+	public double conditionalDistribution(double pUtility, double pPreviousBidUtility) {
 		if (pPreviousBidUtility < pUtility) {
 			return 0.0D;
 		}
@@ -245,6 +249,8 @@ public class BayesianOpponentModel extends OpponentModel {
 				lMaxProb = condDistrib;
 			hyp.setProbability(condDistrib);
 		}
+		//assign the var
+		MaxProbabilityHyp = lMaxProb;
 		if (fUseMostProbableHypsOnly) {
 			fMostProbableUSHyps = new ArrayList();
 		}
@@ -273,7 +279,11 @@ public class BayesianOpponentModel extends OpponentModel {
 		fPreviousBidUtility -= EXPECTED_CONCESSION_STEP;
 	}
 
-	private void buildEvaluationHypsRecursive(ArrayList<EvaluatorHypothesis[]> pHyps, EvaluatorHypothesis[] pEval,
+	//Return the Maximum probability hypothesis
+	public double getMaxProbabilityHyp(){ return MaxProbabilityHyp;}
+
+
+	public void buildEvaluationHypsRecursive(ArrayList<EvaluatorHypothesis[]> pHyps, EvaluatorHypothesis[] pEval,
 			int m) {
 		if (m == 0) {
 			ArrayList<EvaluatorHypothesis> lEvalHyps = (ArrayList) fEvaluatorHyps.get(fUS.getNrOfEvaluators() - 1);
@@ -294,7 +304,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		}
 	}
 
-	private void buildEvaluationHyps() {
+	public void buildEvaluationHyps() {
 		fEvalHyps = new ArrayList();
 		EvaluatorHypothesis[] lTmp = new EvaluatorHypothesis[fUS.getNrOfEvaluators()];
 		buildEvaluationHypsRecursive(fEvalHyps, lTmp, fUS.getNrOfEvaluators() - 1);
@@ -339,7 +349,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		return getExpectedWeight(i.getNumber() - startingNumber) / sum;
 	}
 
-	private UtilitySpaceHypothesis getMaxHyp() {
+	public UtilitySpaceHypothesis getMaxHyp() {
 		UtilitySpaceHypothesis lHyp = (UtilitySpaceHypothesis) fUSHyps.get(0);
 		for (int i = 0; i < fUSHyps.size(); i++) {
 			if (lHyp.getProbability() < ((UtilitySpaceHypothesis) fUSHyps.get(i)).getProbability())
@@ -348,7 +358,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		return lHyp;
 	}
 
-	private int factorial(int n) {
+	public int factorial(int n) {
 		if (n <= 1) {
 			return 1;
 		}
