@@ -10,9 +10,7 @@ import genius.core.issue.ValueDiscrete;
 import genius.core.utility.AdditiveUtilitySpace;
 import src.mas2022.group7.bayesianopponentmodel.BayesianOpponentModel;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class Group7_OM extends OpponentModel {
@@ -92,33 +90,31 @@ public class Group7_OM extends OpponentModel {
         @Override
         public void updateModel(Bid opponentBid, double time) {
             try {
-                double[] fUSHypProbability = new double[0];
-                double[] updatedFUSHypProbability = new double[0];
+                List<Double> fUSHypProbability = new ArrayList<>();
+                List<Double> updatedFUSHypProbability = new ArrayList<>();
                 double maxTime = 200;
                 double timeStep = 0.5;
-                double infoE = 0;
                 int i = 0;
 
                 for(int j = 0; j < model.fWeightHyps.length; j++) {
-                    fUSHypProbability[j] = model.fWeightHyps[j].getProbability();
+                    fUSHypProbability.add(model.fWeightHyps[j].getProbability());
                 }
 
                 if(time > 0){
                     while (i <= maxTime && time <= maxTime){
-                        infoE = getInformationEntropy(model);
                         model.updateBeliefs(opponentBid);
-                        for(int j = 0; j < model.fWeightHyps.length; j++){
-                            updatedFUSHypProbability[j] = model.fWeightHyps[j].getProbability();
+                        for(int j = 0; j < model.fWeightHyps.length; j++) {
+                            updatedFUSHypProbability.add(model.fWeightHyps[j].getProbability());
                         }
                         maxTime -= timeStep;
                         i++;
-                        timeStep+=i;
+                        timeStep += i;
                     }
                 }
 
-                //Calculate the distance between the probabilities of fUSHyp and updatedFUSHyp
-                for(int j = 0;j<fUSHypProbability.length && j < updatedFUSHypProbability.length;j++){
-                    double distanceBetweenHypSpaces = this.getJS_Divergence(fUSHypProbability,updatedFUSHypProbability);
+                // Calculate the distance between the probabilities of fUSHyp and updatedFUSHyp
+                for(int j = 0; j<fUSHypProbability.size() && j < updatedFUSHypProbability.size(); j++){
+                    double distanceBetweenHypSpaces = this.getJS_Divergence(fUSHypProbability, updatedFUSHypProbability);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,22 +129,6 @@ public class Group7_OM extends OpponentModel {
                 e.printStackTrace();
             }
             return 0;
-        }
-
-        /**
-         * Calculate the information entropy
-         * H[p(ω|y∗)]=H[p(ω|y∗),p(y∗|ω)]+H[p(ω|y∗),p(ω)]
-         * */
-        public double getInformationEntropy(BayesianOpponentModel model) throws Exception {
-            double infoEntropy = 0;//H[p(ω|y∗)]
-            double crossEntropy= model.getExpectedUtility(this.opponentUtilitySpace.getMaxUtilityBid());//H[p(ω|y∗),p(ω)]
-            double normalizedCrossEntropy= model.getNormalizedUtility(this.opponentUtilitySpace.getMaxUtilityBid());//H[p(ω|y∗),p(y∗|ω)]
-
-            if(normalizedCrossEntropy<=crossEntropy)
-                infoEntropy = normalizedCrossEntropy+crossEntropy;
-            System.out.println("Information Entropy:"+ infoEntropy);
-            return infoEntropy;
-
         }
 
         /**
@@ -177,21 +157,19 @@ public class Group7_OM extends OpponentModel {
             return set;
         }
 
+        public double getJS_Divergence(List<Double> first, List<Double> second){
+            List<Double> divergence = new ArrayList<>();
+            for(int i = 0; i < first.size()-1; i++){
+                double val = (first.get(i)+second.get(i))/2;
+                divergence.add(val);
+            }
+            return getKL_Divergence(first, divergence)/2 + getKL_Divergence(second, divergence)/2;
+        }
 
-        public double getKL_Divergence(double[] first,double[] second){
+        public double getKL_Divergence(List<Double> first, List<Double> second){
             double divergence = 0;
-            for(int i = 0; i < first.length; i++)
-                divergence = first[i] + Math.log(first[i]/second[i]);
+            for(int i = 0; i < first.size()-1; i++)
+                divergence = first.get(i) + Math.log(first.get(i)/second.get(i));
             return divergence;
         }
-        
-        public double getJS_Divergence(double[] first,double[] second){
-            double[] divergence = new double[0];            
-            for(int i=0;i<first.length;i++){
-                double val = 0.5*(first[i]+second[i]);
-                divergence[i] = val;
-            }
-            return 0.5*getKL_Divergence(first,divergence) +0.5 * getKL_Divergence(second,divergence);
-        }
-
 }
