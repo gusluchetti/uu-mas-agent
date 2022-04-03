@@ -1,7 +1,5 @@
 package bilateralexamples;
 
-import genius.core.Bid;
-import genius.core.BidIterator;
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.*;
 import genius.core.misc.Range;
@@ -49,15 +47,12 @@ public class Group7_BS extends OfferingStrategy {
         // if (filtered bids have NOT been tested) {
         if (!bidsWereFiltered) {
             bidsWereFiltered = true;
-            // to get evenly spaces bids:
-            // empty list, add random great bid (above .95)
             spacedBids.add(firstBid);
             boolean isDistant = true;
 
             for (BidDetails bd : orderedBids) {
                 for (int j = 0; j <= spacedBids.size()-1; j++) {
                     double dist = spacedBids.get(j).getBid().getDistance(bd.getBid());
-                    // find best bid with distance in actual preferences (at least 0.3)
                     if (dist < 0.4) {
                         isDistant = false;
                         break;
@@ -68,18 +63,15 @@ public class Group7_BS extends OfferingStrategy {
                 }
                 isDistant = true;
             }
-            // find another best bid with that distance to all other elements in the list
-            // repeat until all bids have been checked
         }
         // phase 3 - exploratory phase
-        // if (all filtered bids HAVE been tested) {
         if (bidsWereFiltered) {
-
+            // choose starting point based on opponent model
+            // attempt to find the most beneficial agreement for both parties
         }
         // panic phase - acceptance strategy gets less and less lenient
 
-        int r = ThreadLocalRandom.current().nextInt(0, spacedBids.size());
-        return spacedBids.get(r);
+        return spacedBids.get(ThreadLocalRandom.current().nextInt(0, spacedBids.size()));
     }
 
     @Override
