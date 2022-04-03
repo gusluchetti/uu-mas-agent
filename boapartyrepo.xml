@@ -1,44 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <boaPartiesList>
-    <boaparties partyName="v1-007">
+    <boaparties partyName="testParty">
         <properties/>
         <biddingStrategy>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <parameters name="first reservation value" value="0.9"/>
-            <parameters name="abs_thresh" value="0.6"/>
-            <parameters name="amount of opponent bids used" value="5.0"/>
-            <parameters name="time to start declining" value="0.6"/>
-            <parameters name="rate of decline" value="0.866"/>
-            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_AS.class"/>
+            <item classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_AgentK"/>
         </acceptanceStrategy>
         <opponentModel>
             <parameters name="b" value="1.0"/>
             <parameters name="u" value="0.0"/>
             <item classpath="negotiator.boaframework.opponentmodel.IAMhagglerBayesianModel"/>
-        </opponentModel>
-        <omStrategy>
-            <parameters name="t" value="1.1"/>
-            <item classpath="negotiator.boaframework.omstrategy.BestBid"/>
-        </omStrategy>
-    </boaparties>
-    <boaparties partyName="only007Bidding">
-        <properties/>
-        <biddingStrategy>
-            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_BS.class"/>
-        </biddingStrategy>
-        <acceptanceStrategy>
-            <parameters name="bd" value="0.0"/>
-            <parameters name="b" value="0.0"/>
-            <parameters name="ad" value="1.05"/>
-            <parameters name="t" value="0.99"/>
-            <parameters name="c" value="0.98"/>
-            <parameters name="a" value="1.0"/>
-            <item classpath="negotiator.boaframework.acceptanceconditions.anac2012.AC_TheNegotiatorReloaded"/>
-        </acceptanceStrategy>
-        <opponentModel>
-            <item classpath="negotiator.boaframework.opponentmodel.PerfectIAMhagglerBayesianModel"/>
         </opponentModel>
         <omStrategy>
             <parameters name="t" value="1.1"/>

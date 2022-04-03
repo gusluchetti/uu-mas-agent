@@ -1,149 +1,85 @@
 package bilateralexamples;
 
 import genius.core.Bid;
+import genius.core.BidIterator;
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.*;
-import negotiator.boaframework.opponentmodel.DefaultModel;
-import negotiator.boaframework.sharedagentstate.anac2011.GahboninhoSAS;
-import negotiator.boaframework.sharedagentstate.anac2011.gahboninho.IssueManager;
+import genius.core.misc.Range;
+import genius.core.timeline.TimeLineInfo;
+import genius.core.utility.AbstractUtilitySpace;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
-/*
-* Offering strategy mostly based on Gahboninho's Agent bidding strategy (from ANAC 2011)
-* */
 public class Group7_BS extends OfferingStrategy {
-    private boolean WereBidsFiltered = false;
-    private int RoundCount = 0;
-    private SortedOutcomeSpace OutcomeSpace;
+    public boolean bidsWereFiltered = false;
+    public List<BidDetails> spacedBids = new ArrayList<>();
 
     @Override
-    public void init(NegotiationSession domainKnow, OpponentModel model, OMStrategy omStrategy,
-                     Map<String, Double> parameters) throws Exception {
-
-        if (model instanceof DefaultModel) {
-            model = new NoModel();
-        }
-
-        super.init(domainKnow, model, omStrategy, parameters);
-        helper = new GahboninhoSAS(negotiationSession);
-
-        if (!(opponentModel instanceof NoModel)) {
-            OutcomeSpace = new SortedOutcomeSpace(negotiationSession.getUtilitySpace());
-        }
+    public void init(NegotiationSession negotiationSession, OpponentModel opponentModel, OMStrategy omStrategy, Map<String, Double> parameters) throws Exception {
+        super.init(negotiationSession, opponentModel, omStrategy, parameters);
     }
 
     @Override
     public BidDetails determineOpeningBid() {
-        return determineNextBid();
+        return negotiationSession.getMaxBidinDomain();
     }
 
     @Override
     public BidDetails determineNextBid() {
-        IssueManager issueManager = ((GahboninhoSAS) helper).getIssueManager();
-        BidDetails previousOpponentBid = null;
-        BidDetails opponentBid = negotiationSession.getOpponentBidHistory().getLastBidDetails();
-        double negotiationTime = negotiationSession.getTime();
+        AbstractUtilitySpace utilitySpace = negotiationSession.getUtilitySpace();
+        SortedOutcomeSpace outcomeSpace = new SortedOutcomeSpace(utilitySpace);
+        TimeLineInfo timeline = negotiationSession.getTimeline();
 
-        int histSize = negotiationSession.getOpponentBidHistory().getHistory().size();
-        if (histSize >= 2) {
-            previousOpponentBid = negotiationSession.getOpponentBidHistory().getHistory().get(histSize - 1);
+        // bid lists
+        List<BidDetails> orderedBids = outcomeSpace.getOrderedList();
+        BidDetails firstBid = orderedBids.get(0);
+
+        // phase 1
+        // if (over 50% time passed && no new information gained from past 3 bids) {
+        List<BidDetails> greatBids = outcomeSpace.getBidsinRange(new Range(0.90, 1.00));
+        if (timeline.getTime() / timeline.getTotalTime() * 100 <= 0.50) {
+            int randomNum = ThreadLocalRandom.current().nextInt(0, greatBids.size());
+            firstBid = greatBids.get(randomNum);
+            return firstBid;
         }
+        // phase 2
+        // if (filtered bids have NOT been tested) {
+        if (!bidsWereFiltered) {
+            bidsWereFiltered = true;
+            // to get evenly spaces bids:
+            // empty list, add random great bid (above .95)
+            spacedBids.add(firstBid);
+            boolean isDistant = true;
 
-        double threshold;
-        /* if it's not the first turn:
-        * process their bid
-        * update opponent model
-        * learn bids?
-        * update minimum utility for acceptance
-        * */
-        if (opponentBid != null) {
-            if (previousOpponentBid != null) {
-                try {
-                    issueManager.ProcessOpponentBid(opponentBid.getBid());
-                    ((GahboninhoSAS) helper).getOpponentModel().UpdateImportance(opponentBid.getBid());
-                } catch (Exception e) {
-                    e.printStackTrace();
+            for (BidDetails bd : orderedBids) {
+                for (int j = 0; j <= spacedBids.size()-1; j++) {
+                    double dist = spacedBids.get(j).getBid().getDistance(bd.getBid());
+                    // find best bid with distance in actual preferences (at least 0.3)
+                    if (dist < 0.4) {
+                        isDistant = false;
+                        break;
+                    }
                 }
-            } else {
-                try {
-                    issueManager.learnBids(opponentBid.getBid());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (isDistant && bd.getMyUndiscountedUtil() > 0.60) {
+                    spacedBids.add(bd);
                 }
+                isDistant = true;
             }
-            threshold = issueManager.GetMinimumUtilityToAccept();
-            issueManager.setMinimumUtilForAcceptance(threshold);
+            // find another best bid with that distance to all other elements in the list
+            // repeat until all bids have been checked
         }
-
-        try {
-            // on the first few rounds don't get tempted so fast
-            ++RoundCount;
-            if (!WereBidsFiltered &&
-                (negotiationTime > 0.9 ||
-                negotiationTime + (3 * issueManager.getBidsCreationTime()) > 1)
-            ) {
-                WereBidsFiltered = true;
-                int DesiredBidCount = (int) (RoundCount * (1 - negotiationSession.getTime()));
-                if (issueManager.getBids().size() > 200) {
-                    issueManager.setBids(
-                            ((GahboninhoSAS) helper).getOpponentModel().FilterBids(issueManager.getBids(), DesiredBidCount)
-                    );
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // on the first time we act offer max bid
-        if (previousOpponentBid == null) {
-            try {
-                issueManager.AddMyBidToStatistics(issueManager.getMaxBid());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Bid maxBid = issueManager.getMaxBid();
-
-            try {
-                return new BidDetails(
-                        maxBid, negotiationSession.getUtilitySpace().getUtility(maxBid), negotiationSession.getTime()
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        Bid myBid;
-        if (((GahboninhoSAS) helper).getFirstActions() >= 0 && negotiationSession.getTime() < 0.15) {
-            // on first few bids let the opponent learn some more about our preferences
-            int totalFirstActions = 40;
-            double utilDecrease = (1 - 0.925) / totalFirstActions;
-
-            myBid = issueManager.GenerateBidWithAtleastUtilityOf(0.925 + utilDecrease * ((GahboninhoSAS) helper).getFirstActions());
-            ((GahboninhoSAS) helper).decrementFirstActions();
-        } else {
-            // always execute this one, even when an OM has been set as this method has side-effects.
-            myBid = issueManager.GenerateBidWithAtleastUtilityOf(
-                    issueManager.GetNextRecommendedOfferUtility());
-            if (issueManager.getInFrenzy())
-                myBid = issueManager.getBestEverOpponentBid();
+        // phase 3 - exploratory phase
+        // if (all filtered bids HAVE been tested) {
+        if (bidsWereFiltered) {
 
         }
+        // panic phase - acceptance strategy gets less and less lenient
 
-        try {
-            double utility = negotiationSession.getUtilitySpace().getUtility(myBid);
-            if (!(opponentModel instanceof NoModel)) {
-                BidDetails selectedBid = omStrategy.getBid(OutcomeSpace, utility);
-                issueManager.AddMyBidToStatistics(selectedBid.getBid());
-                return selectedBid;
-            }
-            issueManager.AddMyBidToStatistics(myBid);
-            return new BidDetails(myBid, utility, negotiationSession.getTime());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        int r = ThreadLocalRandom.current().nextInt(0, spacedBids.size());
+        return spacedBids.get(r);
     }
 
     @Override

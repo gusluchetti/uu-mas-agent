@@ -2,7 +2,6 @@
 <repository fileName="boarepository.xml">
 	<biddingstrategies>
 		<biddingstrategy description="2010 - Agent K" classpath="negotiator.boaframework.offeringstrategy.anac2010.AgentK_Offering"/>
-		<biddingstrategy description="007-BS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_BS.class"/>
 		<biddingstrategy description="2010 - Yushu" classpath="negotiator.boaframework.offeringstrategy.anac2010.Yushu_Offering"/>
 		<biddingstrategy description="2012 - AgentLG" classpath="negotiator.boaframework.offeringstrategy.anac2012.AgentLG_Offering"/>
 		<biddingstrategy description="2012 - BRAMAgent2" classpath="negotiator.boaframework.offeringstrategy.anac2012.BRAMAgent2_Offering"/>
@@ -25,6 +24,7 @@
 		<biddingstrategy description="2013 - TheFawkes" classpath="negotiator.boaframework.offeringstrategy.anac2013.Fawkes_Offering"/>
 		<biddingstrategy description="2011 - HardHeaded" classpath="negotiator.boaframework.offeringstrategy.anac2011.HardHeaded_Offering"/>
 		<biddingstrategy description="2010 - IAMHaggler2010" classpath="negotiator.boaframework.offeringstrategy.anac2010.IAMhaggler2010_Offering"/>
+		<biddingstrategy description="sfd" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_BS.class"/>
 		<biddingstrategy description="2012 - AgentMR" classpath="negotiator.boaframework.offeringstrategy.anac2012.AgentMR_Offering"/>
 		<biddingstrategy description="Other - Offer decreasing utility" classpath="negotiator.boaframework.offeringstrategy.other.ChoosingAllBids"/>
 		<biddingstrategy description="2012 - CUHKAgent" classpath="negotiator.boaframework.offeringstrategy.anac2012.CUHKAgent_Offering"/>
@@ -57,7 +57,6 @@
 		<acceptancecondition description="Other - False" classpath="negotiator.boaframework.acceptanceconditions.other.AC_False"/>
 		<acceptancecondition description="2010 - Agent FSEGA" classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_AgentFSEGA"/>
 		<acceptancecondition description="2010 - IAMcrazyHaggler" classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_IAMcrazyHaggler"/>
-		<acceptancecondition description="007-AS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_AS.class"/>
 		<acceptancecondition description="Other - CombiV3" classpath="negotiator.boaframework.acceptanceconditions.other.AC_CombiV3"/>
 		<acceptancecondition description="2013 - TheFawkes" classpath="negotiator.boaframework.acceptanceconditions.anac2013.AC_TheFawkes"/>
 		<acceptancecondition description="2011 - HardHeaded" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_HardHeaded"/>
