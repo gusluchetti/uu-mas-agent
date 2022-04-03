@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<agentsStatistics>
+    <statistics>
+        <totalUndiscountedUtility>1.0</totalUndiscountedUtility>
+        <totalDiscountedUtility>1.0</totalDiscountedUtility>
+        <numberOfSessions>1</numberOfSessions>
+        <totalNashDist>0.0</totalNashDist>
+        <totalWelfare>1.8134174086583097</totalWelfare>
+        <totalParetoDistance>0.0</totalParetoDistance>
+        <meanDiscounted>1.0</meanDiscounted>
+        <meanNashDistance>0.0</meanNashDistance>
+        <meanParetoDistance>0.0</meanParetoDistance>
+        <meanUndiscounted>1.0</meanUndiscounted>
+        <meanWelfare>1.8134174086583097</meanWelfare>
+    </statistics>
+    <statistics>
+        <agentname>agents.anac.y2016.grandma.GrandmaAgent</agentname>
+        <totalUndiscountedUtility>2.652489000635745</totalUndiscountedUtility>
+        <totalDiscountedUtility>2.652489000635745</totalDiscountedUtility>
+        <numberOfSessions>3</numberOfSessions>
+        <totalNashDist>0.49321815794065427</totalNashDist>
+        <totalWelfare>5.344864632276127</totalWelfare>
+        <totalParetoDistance>0.021589196757408814</totalParetoDistance>
+        <meanDiscounted>0.884163000211915</meanDiscounted>
+        <meanNashDistance>0.16440605264688476</meanNashDistance>
+        <meanParetoDistance>0.007196398919136271</meanParetoDistance>
+        <meanUndiscounted>0.884163000211915</meanUndiscounted>
+        <meanWelfare>1.7816215440920422</meanWelfare>
+    </statistics>
+</agentsStatistics>

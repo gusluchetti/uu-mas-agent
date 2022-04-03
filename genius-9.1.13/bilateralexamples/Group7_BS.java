@@ -16,6 +16,11 @@ public class Group7_BS extends OfferingStrategy {
     public List<BidDetails> spacedBids = new ArrayList<>();
 
     @Override
+    public String getName() {
+        return "2022 - Agent007 Bidding Strategy";
+    }
+
+    @Override
     public void init(NegotiationSession negotiationSession, OpponentModel opponentModel, OMStrategy omStrategy, Map<String, Double> parameters) throws Exception {
         super.init(negotiationSession, opponentModel, omStrategy, parameters);
     }
@@ -74,8 +79,4 @@ public class Group7_BS extends OfferingStrategy {
         return spacedBids.get(ThreadLocalRandom.current().nextInt(0, spacedBids.size()));
     }
 
-    @Override
-    public String getName() {
-        return "2022 - Agent007";
-    }
 }

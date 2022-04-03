@@ -18,9 +18,13 @@ public class Group7_AS extends AcceptanceStrategy {
     public Bid lastOffer;
     public AbstractUtilitySpace utilitySpace;
     public List<Bid> acceptableBids = new ArrayList();
-    public double accep_util;
+    public double accept_util;
     List<BidDetails> nBestBids;
     double tot_util;
+
+    public String getName() {
+        return "2022 - Agent 007 Acceptance Strategy";
+    }
 
     public Set<BOAparameter> getParameterSpec() {
         HashSet parameters1 = new HashSet();
@@ -30,7 +34,8 @@ public class Group7_AS extends AcceptanceStrategy {
         parameters1.add(new BOAparameter("time to start declining", 0.6D, "time to start declining"));
         parameters1.add(new BOAparameter("first reservation value", 0.9D, "first reservation value"));
         parameters1.add(new BOAparameter("amount of opponent bids used", 5D, "amount of opponent bids used"));
-        return parameters1;}
+        return parameters1;
+    }
 
 
     @Override
@@ -40,13 +45,14 @@ public class Group7_AS extends AcceptanceStrategy {
         Map<String, Double> par = this.getParameters();
         BidIterator allbids = new BidIterator(this.negotiationSession.getDomain());
         if (this.negotiationSession.getTime() < par.get("time to start declining")){
-            accep_util = par.get("first reservation value");
+            accept_util = par.get("first reservation value");
         }
-        else {accep_util = par.get("first reservation value") - (this.negotiationSession.getTime() - par.get("time to start declining")) * Math.pow(par.get("rate of decline"), 2); }
+        else {
+            accept_util = par.get("first reservation value") - (this.negotiationSession.getTime() - par.get("time to start declining")) * Math.pow(par.get("rate of decline"), 2); }
 
         while (allbids.hasNext()) {
             Bid next_bid = allbids.next();
-            if (this.negotiationSession.getUtilitySpace().getUtility(next_bid) > accep_util) {
+            if (this.negotiationSession.getUtilitySpace().getUtility(next_bid) > accept_util) {
                 acceptableBids.add(next_bid);
             }
         }
@@ -74,14 +80,12 @@ public class Group7_AS extends AcceptanceStrategy {
             tot_util += nBestBids.get(i).getMyUndiscountedUtil();
 
         }
+
         double avg_util = tot_util / nBestBids.size();
         //this is used to find bids that happen only once in the negotation session and thus are one of the best that can be accepted
         if (avg_util * 2 < lastopponentbid.getMyUndiscountedUtil() && lastopponentbid.getMyUndiscountedUtil()> par.get("abs_thresh") && nBestBids.size() >= par.get("amount of opponent bids used").intValue() ){
             return Actions.Accept;
         }
         return Actions.Reject;
-    }
-    public String getName() {
-        return "acceptance strategy agent 007 -1";
     }
 }
