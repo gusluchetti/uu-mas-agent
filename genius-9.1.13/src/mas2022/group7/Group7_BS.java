@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Group7_BS extends OfferingStrategy {
-    private Group7_OM OM;
     public boolean bidsWereFiltered = false;
     public List<BidDetails> spacedBids = new ArrayList<>();
 
@@ -23,7 +22,7 @@ public class Group7_BS extends OfferingStrategy {
 
     @Override
     public void init(NegotiationSession negotiationSession, OpponentModel opponentModel, OMStrategy omStrategy, Map<String, Double> parameters) throws Exception {
-        this.OM = (Group7_OM) opponentModel;
+        this.opponentModel = opponentModel;
         super.init(negotiationSession, opponentModel, omStrategy, parameters);
     }
 
@@ -40,21 +39,22 @@ public class Group7_BS extends OfferingStrategy {
 
         // bid lists
         List<BidDetails> orderedBids = outcomeSpace.getOrderedList();
-        BidDetails firstBid = orderedBids.get(0);
+        BidDetails bid = orderedBids.get(0);
 
         // phase 1
         List<BidDetails> greatBids = outcomeSpace.getBidsinRange(new Range(0.90, 1.00));
         // todo: use divergence distance (smaller than 0.1 and 20% of the time has passed) to pass the phase
         if (timeline.getTime() / timeline.getTotalTime() * 100 <= 0.50) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, greatBids.size());
-            firstBid = greatBids.get(randomNum);
-            return firstBid;
+            bid = greatBids.get(randomNum);
+            return bid;
         }
 
         // phase 2
+        // filtering good bids that are spaced out on their preferences (high utility but different preferences)
         if (!bidsWereFiltered) {
             bidsWereFiltered = true;
-            spacedBids.add(firstBid);
+            spacedBids.add(orderedBids.get(0));
             boolean isDistant = true;
 
             for (BidDetails bd : orderedBids) {
@@ -73,17 +73,22 @@ public class Group7_BS extends OfferingStrategy {
         }
 
         // phase 3 - exploratory phase
+        // looking at all the spaced out bids and seeing what matches best with our opponent model
         if (bidsWereFiltered) {
+            double bestBid = -999;
             // choose starting point based on opponent model
             // attempt to find the most beneficial agreement for both parties
             for (BidDetails bd: spacedBids) {
-                double evaluatingBid = this.OM.getBidEvaluation(firstBid.getBid());
+                double evaluatingBid = this.opponentModel.getBidEvaluation(bd.getBid());
+                System.out.println(evaluatingBid);
+                System.out.println(bd);
+                if (evaluatingBid > bestBid) {
+                    bestBid = evaluatingBid;
+                    bid = bd;
+                }
             }
-            double test = this.OM.getBidEvaluation(firstBid.getBid());
         }
-        // panic phase - acceptance strategy gets less and less lenient
 
-        return spacedBids.get(ThreadLocalRandom.current().nextInt(0, spacedBids.size()));
+        return bid;
     }
-
 }
