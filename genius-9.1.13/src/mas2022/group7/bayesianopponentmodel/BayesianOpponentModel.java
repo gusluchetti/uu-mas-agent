@@ -38,7 +38,9 @@ public class BayesianOpponentModel extends OpponentModel {
 	public boolean USE_DOMAIN_KNOWLEDGE = false;
 	List<Issue> issues;
 	public double MaxProbabilityHyp =0 ;
-	public ArrayList<UtilitySpaceHypothesis> allBids = new ArrayList<>();
+	public ArrayList<UtilitySpaceHypothesis> allBids ;
+
+
 	public BayesianOpponentModel(){super();}
 
 	public String getName(){return "Bayesian Opponent Model";};
@@ -255,11 +257,13 @@ public class BayesianOpponentModel extends OpponentModel {
 						fDomain, fUS, fWeightHyps[i], fEvalHyps.get(j));
 				fUSHyps.add(lUSHyp);
 			}
+			System.out.println(fWeightHyps.length);
 		}
 		// normalize intial utilities
 		for (int i = 0; i < fUSHyps.size(); i++) {
 			fUSHyps.get(i).setProbability(1 / (double) (fUSHyps.size()));
 		}
+		//System.out.println(fUSHyps.size());
 	}
 
 
@@ -314,7 +318,7 @@ public class BayesianOpponentModel extends OpponentModel {
 
 
 	public void updateBeliefs(Bid pBid) throws Exception {
-		System.out.println(fUSHyps.size());
+		//System.out.println(fUSHyps.size());
 		fBiddingHistory.add(pBid);
 
 		if (haveSeenBefore(pBid))
@@ -322,6 +326,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		// calculate full probability for the given bid
 		double lFullProb = 0;
 		double lMaxProb = 0;
+		System.out.println("#######################");
 		allBids = fUSHyps;
 		for (int i = 0; i < fUSHyps.size(); i++) {
 			UtilitySpaceHypothesis hyp = fUSHyps.get(i);
@@ -375,9 +380,7 @@ public class BayesianOpponentModel extends OpponentModel {
 	public ArrayList<UtilitySpaceHypothesis> getAllBids(){
 		return allBids;
 	}
-	public void buildEvaluationHypsRecursive(
-			ArrayList<EvaluatorHypothesis[]> pHyps,
-			EvaluatorHypothesis[] pEval, int m) {
+	public void buildEvaluationHypsRecursive(ArrayList<EvaluatorHypothesis[]> pHyps,EvaluatorHypothesis[] pEval, int m) {
 		if (m == 0) {
 			ArrayList<EvaluatorHypothesis> lEvalHyps = fEvaluatorHyps.get(fUS
 					.getNrOfEvaluators() - 1);
@@ -406,6 +409,7 @@ public class BayesianOpponentModel extends OpponentModel {
 				.getNrOfEvaluators()];
 		buildEvaluationHypsRecursive(fEvalHyps, lTmp,
 				fUS.getNrOfEvaluators() - 1);
+		System.out.println("============"+fEvalHyps.size());
 	}
 
 	public double getExpectedUtility(Bid pBid) throws Exception {

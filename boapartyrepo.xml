@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <boaPartiesList>
-    <boaparties partyName="Agent-007">
+    <boaparties partyName="newParty">
         <properties/>
         <biddingStrategy>
             <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <parameters name="rate of decline" value="0.866"/>
-            <parameters name="abs_thresh" value="0.6"/>
-            <parameters name="first reservation value" value="0.9"/>
-            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="first res value" value="0.9"/>
+            <parameters name="abs_thresh" value="0.8"/>
             <parameters name="time to start declining" value="0.6"/>
-            <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\Group7_AS.class"/>
         </acceptanceStrategy>
         <opponentModel>
             <parameters name="m" value="0.0"/>

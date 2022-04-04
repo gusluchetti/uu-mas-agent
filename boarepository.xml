@@ -43,7 +43,7 @@
 		<acceptancecondition description="Other - Previous" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Previous"/>
 		<acceptancecondition description="Multi Acceptance Criteria" classpath="genius.core.boaframework.Multi_AcceptanceCondition"/>
 		<acceptancecondition description="2012 - IAMHaggler2012" classpath="negotiator.boaframework.acceptanceconditions.anac2012.AC_IAMHaggler2012"/>
-		<acceptancecondition description="007AS" classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+		<acceptancecondition description="007AS" classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\Group7_AS.class"/>
 		<acceptancecondition description="Other - Uncertain" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Uncertain"/>
 		<acceptancecondition description="2011 - BRAMAgent" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_BRAMAgent"/>
 		<acceptancecondition description="2011 - Nice-Tit-For-Tat" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_NiceTitForTat"/>
