@@ -64,7 +64,7 @@ public class Group7_OM extends OpponentModel {
         }
 
         /**
-         * Just an auxiliar funtion to calculate the index where issues start on a
+         * Just an auxiliar function to calculate the index where issues start on a
          * bid because we found out that it depends on the domain.
          *
          * @return true when the received index is the proper index
@@ -82,10 +82,6 @@ public class Group7_OM extends OpponentModel {
         /**
          * Update the opponent model by updating all hypotheses about the opponent's
          * preference profile.
-         *
-         * @param opponentBid
-         * @param time
-         *            of offering
          */
         @Override
         public void updateModel(Bid opponentBid, double time) {
@@ -139,7 +135,7 @@ public class Group7_OM extends OpponentModel {
         }
 
         /**
-         * @return utilityspace created by using the opponent model adapter.
+         * @return utility space created by using the opponent model adapter.
          */
         @Override
         public AdditiveUtilitySpace getOpponentUtilitySpace() {
