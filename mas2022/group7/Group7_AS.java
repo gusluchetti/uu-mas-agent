@@ -27,7 +27,7 @@ public class Group7_AS extends AcceptanceStrategy {
     public Set<BOAparameter> getParameterSpec() {
         HashSet parameters1 = new HashSet();
         // From 0.6 time the decline starts happening from 0.9
-        parameters1.add(new BOAparameter("abs_thresh", 0.6D, "absolute lowest utility that is acceptable"));
+        parameters1.add(new BOAparameter("abs_thresh", 0.8D, "absolute lowest utility that is acceptable"));
         parameters1.add(new BOAparameter("time to start declining", 0.6D, "time to start declining"));
         parameters1.add(new BOAparameter("first res value", 0.9D, "first reservation value"));
         parameters1.add(new BOAparameter("amount of opponent bids used", 5D, "amount of opponent bids used"));
@@ -72,12 +72,13 @@ public class Group7_AS extends AcceptanceStrategy {
             intercept = avg_y - (slope * avg_x);
             //line becomes y = slope * x + intercept
         }
-        //Part 1 where the acceptability starts as a line and after a certain time start declining parabolically.
-        // (parameters: time to start declining,first res value)
+        /*Part 1 where the acceptability starts as a line and after a certain time start declining parabolically.
+        (parameters: time to start declining,first res value) */
         BidIterator allbids = new BidIterator(this.negotiationSession.getDomain());
 
-        if (this.negotiationSession.getTime() < par.get("first res value")){
+        if (this.negotiationSession.getTime() < par.get("time to start declining")){
             accep_util = par.get("first res value");
+
         }
         else {
             BidDetails opponent_bids_best = this.negotiationSession.getOpponentBidHistory().getBestBidDetails();
@@ -86,25 +87,41 @@ public class Group7_AS extends AcceptanceStrategy {
             //approximation of total amount of bids of opponent
             double amount_ofbids = this.opponent_bids.size()/this.negotiationSession.getTime();
 
-            //the predicted utility of the opponents last bid;
-            //use line you created in the previous section
-            //line becomes y = slope * x + intercept
+            /*the predicted utility of the opponents last bid;
+            use line you created in the previous section
+            line becomes y = slope * x + intercept*/
             double pred = slope * amount_ofbids + intercept;
 
             // if the prediction of the last point is higher than the utility of the opponents highest bid then use it as an endpoint.
             if (pred > util_best_opp_bid){
-                //pred = resvalue - (time - time) * decline ^ 2
-                // sqrt ( pred - (resvalue/ (-time -time)) = decline rate u want
-                // endpoint means the point of lowest acceptability utility at the end of the time
+                /*pred = accep_util - (timeleft) * decline ^ 2
+                 endpoint means the point of lowest acceptability utility at the end of the time*/
                 double endpoint = pred;
-                double rateofdecline = Math.sqrt(endpoint - (par.get("first res value") * (this.negotiationSession.getTime() - par.get("time to start declining"))));
-                accep_util = par.get("first res value") - (this.negotiationSession.getTime() - par.get("time to start declining")) * Math.pow(rateofdecline, 2);
+                //failsafe since you dont want it to go lower than 0.6
+                if (endpoint < 0.6){
+                    endpoint = 0.6;
+                }
+                // decline = sqrt((pred - accep_util) / - (timeleft)))
+                // this decline rate will take care that the accept util will finish at the endpoint at the end of time.
+                double rateofdecline = Math.sqrt((endpoint - accep_util) / - (1- this.negotiationSession.getTime()));
+
+                // to find the average timestep between opponent bids
+                double timestep = this.negotiationSession.getTime() / this.opponent_bids.size();
+                accep_util = accep_util - (timestep * Math.pow(rateofdecline, 2));
             }
             //else use the utility of the util_best_opp_bid
             else{
                 double endpoint = util_best_opp_bid;
-                double rateofdecline = Math.sqrt(endpoint - (par.get("first res value") * (this.negotiationSession.getTime() - par.get("time to start declining"))));
-                accep_util = par.get("first res value") - (this.negotiationSession.getTime() - par.get("time to start declining")) * Math.pow(rateofdecline, 2);
+                //failsafe since you dont want it to go lower than 0.6
+                if (endpoint < 0.6){
+                    endpoint = 0.6;
+                }
+                // this decline rate will take care that the accept util will finish at the endpoint at the end of time.
+                double rateofdecline = Math.sqrt((endpoint - accep_util) / - (1- this.negotiationSession.getTime()));
+
+                // to find the average timestep between opponent bids
+                double timestep = this.negotiationSession.getTime() / this.opponent_bids.size();
+                accep_util = accep_util - (timestep * Math.pow(rateofdecline, 2));
             }
         }
 
@@ -126,8 +143,8 @@ public class Group7_AS extends AcceptanceStrategy {
             return Actions.Accept;
         }
 
-        // part 3, if the average utility of the last bids is twice as small as the opponents bid, then it might be the case that we found a "good bid"
-        // and thus if it above a certain threshold then we accept.  (parameters: size of history that you want to include)
+        /*part 3, if the average utility of the last bids is twice as small as the opponents bid, then it might be the case that we found a "good bid"
+         and thus if it above a certain threshold then we accept.  (parameters: size of history that you want to include)*/
         int size = this.negotiationSession.getOpponentBidHistory().size();
 
         if (this.negotiationSession.getOpponentBidHistory().getHistory().size() < par.get("amount of opponent bids used").intValue()){
