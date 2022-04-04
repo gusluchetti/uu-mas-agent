@@ -35,11 +35,8 @@ public class Group7_OM extends OpponentModel {
         private BayesianOpponentModel model;
         /** Index of the first issue weight */
         private int startingBidIssue = 0;
-
         public List<Double> oldfUSHypProbability = new ArrayList<>();
         public List<Double> newUpdatedFUSHypProbability = new ArrayList<>();
-
-
 
         @Override
         public String getName() {
@@ -55,8 +52,6 @@ public class Group7_OM extends OpponentModel {
         public void init(NegotiationSession negotiationSession, Map<String, Double> parameters) {
             this.negotiationSession = negotiationSession;
             model = new BayesianOpponentModel((AdditiveUtilitySpace) negotiationSession.getUtilitySpace());
-            //System.out.println("-----------------------------------"+negotiationSession.getUtilitySpace());
-            System.out.println("---------------------"+model.fUSHyps);
             if (parameters.get("m") != null) {
                 model.setMostProbableUSHypsOnly(parameters.get("m") > 0);
             } else {
@@ -96,61 +91,52 @@ public class Group7_OM extends OpponentModel {
             ArrayList<UtilitySpaceHypothesis> allBidsBefore = model.getAllBids();
             ArrayList<UtilitySpaceHypothesis> allBidsAfter = new ArrayList<>();
 
-            //System.out.println("Are you working????------------------------------------------");
             try {
+                double maxTime = 60;
+                double timeStep = 0.5;
+                int i = 0;
+                System.out.println("Length of model before:"+model.fWeightHyps.length);
+                for(int j = 0; j < model.fWeightHyps.length; j++) {
+                    // fUSHypProbability.add(model.fWeightHyps[j].getProbability());
+                }
 
-//                double maxTime = 60;
-//                double timeStep = 0.5;
-//                int i = 0;
-//                System.out.println("Length of model before:"+model.fWeightHyps.length);
-//                for(int j = 0; j < model.fWeightHyps.length; j++) {
-//                    //fUSHypProbability.add(model.fWeightHyps[j].getProbability());
-//                    //System.out.println("The Probabilities of First:"+model.fWeightHyps[j].getProbability());
-//                }
-//
-//                System.out.println("The length of the model:"+model.fWeightHyps.length);
-//
-//                if(time > 0){
-//                    while (i <= maxTime && time <= maxTime){
-//                        model.updateBeliefs(opponentBid);
-//
-//                        allBidsAfter = model.getAllBids();
-//                        //System.out.println("Max Time" + maxTime);
-//                        //System.out.println("TimeStep between updates:" + timeStep);
-//
-//                        for(int j = 0; j < model.fWeightHyps.length; j++) {
-//                            //updatedFUSHypProbability.add(model.fWeightHyps[j].getProbability());
-//                            //System.out.println(updatedFUSHypProbability);
-//                        }
-//                        maxTime -= timeStep;
-//                        i++;
-//                        timeStep += i;
-//                    }
-//                }
-//                //System.out.println(updatedFUSHypProbability);
-//                System.out.println("All Bids before: "+allBidsBefore.size());
-//                for (int j = 0; j < allBidsBefore.size(); j++) {
-//                    UtilitySpaceHypothesis hyp = allBidsBefore.get(j);
-//                    double condDistrib = hyp.getProbability();
-//                    oldfUSHypProbability.add(condDistrib);
-//                }
-//
-//                for (int j = 0; j < allBidsBefore.size(); j++) {
-//                    UtilitySpaceHypothesis hyp = allBidsAfter.get(i);
-//                    double condDistrib = hyp.getProbability();
-//                    newUpdatedFUSHypProbability.add(condDistrib);
-//                }
-//                System.out.println("Size of  old list"+oldfUSHypProbability.size());
-//                System.out.println("Size of  new list"+newUpdatedFUSHypProbability.size());
-//                for(int k = 0; k<5;k++){
-//                    System.out.println("Values of  old list:"+oldfUSHypProbability.get(k));
-//                    System.out.println("Values of  new list:"+newUpdatedFUSHypProbability.get(k));
-//                }
-//
-//                // Calculate the distance between the probabilities of fUSHyp and updatedFUSHyp
-//                for(int j = 0; j<oldfUSHypProbability.size() && j < newUpdatedFUSHypProbability.size(); j++){
-//                    double distanceBetweenHypSpaces = this.getJS_Divergence(oldfUSHypProbability, newUpdatedFUSHypProbability);
-//                }
+                System.out.println("The length of the model:"+model.fWeightHyps.length);
+                if(time > 0){
+                    while (i <= maxTime && time <= maxTime){
+                        model.updateBeliefs(opponentBid);
+
+                        allBidsAfter = model.getAllBids();
+                        for(int j = 0; j < model.fWeightHyps.length; j++) {
+                            // updatedFUSHypProbability.add(model.fWeightHyps[j].getProbability());
+                        }
+                        maxTime -= timeStep;
+                        i++;
+                        timeStep += i;
+                    }
+                }
+
+                for (int j = 0; j < allBidsBefore.size(); j++) {
+                    UtilitySpaceHypothesis hyp = allBidsBefore.get(j);
+                    double condDistrib = hyp.getProbability();
+                    oldfUSHypProbability.add(condDistrib);
+                }
+
+                for (int j = 0; j < allBidsBefore.size(); j++) {
+                    UtilitySpaceHypothesis hyp = allBidsAfter.get(i);
+                    double condDistrib = hyp.getProbability();
+                    newUpdatedFUSHypProbability.add(condDistrib);
+                }
+                System.out.println("Size of  old list"+oldfUSHypProbability.size());
+                System.out.println("Size of  new list"+newUpdatedFUSHypProbability.size());
+                for(int k = 0; k<5;k++){
+                    System.out.println("Values of  old list:"+oldfUSHypProbability.get(k));
+                    System.out.println("Values of  new list:"+newUpdatedFUSHypProbability.get(k));
+                }
+
+                // Calculate the distance between the probabilities of fUSHyp and updatedFUSHyp
+                for(int j = 0; j<oldfUSHypProbability.size() && j < newUpdatedFUSHypProbability.size(); j++){
+                    double distanceBetweenHypSpaces = this.getJS_Divergence(oldfUSHypProbability, newUpdatedFUSHypProbability);
+                }
 
                 ArrayList<UtilitySpaceHypothesis> beforeAllBids = this.model.allBids;
                 System.out.println(beforeAllBids.size());
@@ -218,7 +204,7 @@ public class Group7_OM extends OpponentModel {
                 else
                     divergence += firstProb.get(i) *val;
             }
-            System.out.println("Divergence:---------" + divergence);
+
             return divergence;
         }
 }
