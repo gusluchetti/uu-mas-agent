@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Group7_BS extends OfferingStrategy {
+    private Group7_OM OM;
     public boolean bidsWereFiltered = false;
     public List<BidDetails> spacedBids = new ArrayList<>();
 
@@ -22,6 +23,7 @@ public class Group7_BS extends OfferingStrategy {
 
     @Override
     public void init(NegotiationSession negotiationSession, OpponentModel opponentModel, OMStrategy omStrategy, Map<String, Double> parameters) throws Exception {
+        this.OM = (Group7_OM) opponentModel;
         super.init(negotiationSession, opponentModel, omStrategy, parameters);
     }
 
@@ -41,15 +43,15 @@ public class Group7_BS extends OfferingStrategy {
         BidDetails firstBid = orderedBids.get(0);
 
         // phase 1
-        // if (over 50% time passed && no new information gained from past 3 bids) {
         List<BidDetails> greatBids = outcomeSpace.getBidsinRange(new Range(0.90, 1.00));
+        // todo: use divergence distance (smaller than 0.1 and 20% of the time has passed) to pass the phase
         if (timeline.getTime() / timeline.getTotalTime() * 100 <= 0.50) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, greatBids.size());
             firstBid = greatBids.get(randomNum);
             return firstBid;
         }
+
         // phase 2
-        // if (filtered bids have NOT been tested) {
         if (!bidsWereFiltered) {
             bidsWereFiltered = true;
             spacedBids.add(firstBid);
@@ -69,10 +71,15 @@ public class Group7_BS extends OfferingStrategy {
                 isDistant = true;
             }
         }
+
         // phase 3 - exploratory phase
         if (bidsWereFiltered) {
             // choose starting point based on opponent model
             // attempt to find the most beneficial agreement for both parties
+            for (BidDetails bd: spacedBids) {
+                double evaluatingBid = this.OM.getBidEvaluation(firstBid.getBid());
+            }
+            double test = this.OM.getBidEvaluation(firstBid.getBid());
         }
         // panic phase - acceptance strategy gets less and less lenient
 
