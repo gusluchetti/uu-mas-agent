@@ -105,7 +105,7 @@ public class Group7_OM extends OpponentModel {
 
     @Override
     public String getName() {
-        return "Bayesian Model";
+        return "Agent 007 - Default Bayesian Model";
     }
 
     @Override

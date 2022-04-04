@@ -174,6 +174,6 @@ public class Group7_AS extends AcceptanceStrategy {
 
 
     public String getName() {
-        return "acceptance strategy agent 007 -1";
+        return "Agent 007 - Acceptance Strategy";
     }
 }
