@@ -38,6 +38,10 @@ public class BayesianOpponentModel extends OpponentModel {
 	public boolean USE_DOMAIN_KNOWLEDGE = false;
 	List<Issue> issues;
 	public double MaxProbabilityHyp =0 ;
+	public ArrayList<UtilitySpaceHypothesis> allBids = new ArrayList<>();
+	public BayesianOpponentModel(){super();}
+
+	public String getName(){return "Bayesian Opponent Model";};
 
 	public BayesianOpponentModel(AdditiveUtilitySpace pUtilitySpace) {
 		if (pUtilitySpace == null)
@@ -258,6 +262,7 @@ public class BayesianOpponentModel extends OpponentModel {
 		}
 	}
 
+
 	public void reverse(double[] P, int m) {
 		int i = 0, j = m;
 		while (i < j) {
@@ -307,13 +312,17 @@ public class BayesianOpponentModel extends OpponentModel {
 		}
 	}
 
+
 	public void updateBeliefs(Bid pBid) throws Exception {
+		System.out.println(fUSHyps.size());
 		fBiddingHistory.add(pBid);
+
 		if (haveSeenBefore(pBid))
 			return;
 		// calculate full probability for the given bid
 		double lFullProb = 0;
 		double lMaxProb = 0;
+		allBids = fUSHyps;
 		for (int i = 0; i < fUSHyps.size(); i++) {
 			UtilitySpaceHypothesis hyp = fUSHyps.get(i);
 			double condDistrib = hyp.getProbability()
@@ -363,6 +372,9 @@ public class BayesianOpponentModel extends OpponentModel {
 		// findMinMaxUtility();
 	}
 
+	public ArrayList<UtilitySpaceHypothesis> getAllBids(){
+		return allBids;
+	}
 	public void buildEvaluationHypsRecursive(
 			ArrayList<EvaluatorHypothesis[]> pHyps,
 			EvaluatorHypothesis[] pEval, int m) {

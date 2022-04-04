@@ -1,6 +1,7 @@
 package src.mas2022.group7;
 
 import agents.bayesianopponentmodel.OpponentModelUtilSpace;
+import agents.bayesianopponentmodel.UtilitySpaceHypothesis;
 import genius.core.Bid;
 import genius.core.boaframework.BOAparameter;
 import genius.core.boaframework.NegotiationSession;
@@ -34,6 +35,10 @@ public class Group7_OM extends OpponentModel {
         private BayesianOpponentModel model;
         /** Index of the first issue weight */
         private int startingBidIssue = 0;
+
+        public List<Double> oldfUSHypProbability = new ArrayList<>();
+        public List<Double> newUpdatedFUSHypProbability = new ArrayList<>();
+
 
 
         @Override
@@ -87,35 +92,68 @@ public class Group7_OM extends OpponentModel {
          * @param time
          *            of offering
          */
+
         @Override
         public void updateModel(Bid opponentBid, double time) {
+            ArrayList<UtilitySpaceHypothesis> allBidsBefore = model.getAllBids();
+            ArrayList<UtilitySpaceHypothesis> allBidsAfter = new ArrayList<>();
+
+            //System.out.println("Are you working????------------------------------------------");
             try {
-                List<Double> fUSHypProbability = new ArrayList<>();
-                List<Double> updatedFUSHypProbability = new ArrayList<>();
-                double maxTime = 200;
+
+                double maxTime = 60;
                 double timeStep = 0.5;
                 int i = 0;
-
+                System.out.println("Length of model before:"+model.fWeightHyps.length);
                 for(int j = 0; j < model.fWeightHyps.length; j++) {
-                    fUSHypProbability.add(model.fWeightHyps[j].getProbability());
+                    //fUSHypProbability.add(model.fWeightHyps[j].getProbability());
+                    //System.out.println("The Probabilities of First:"+model.fWeightHyps[j].getProbability());
                 }
+
+                System.out.println("The length of the model:"+model.fWeightHyps.length);
 
                 if(time > 0){
                     while (i <= maxTime && time <= maxTime){
                         model.updateBeliefs(opponentBid);
+
+                        allBidsAfter = model.getAllBids();
+                        //System.out.println("Max Time" + maxTime);
+                        //System.out.println("TimeStep between updates:" + timeStep);
+
                         for(int j = 0; j < model.fWeightHyps.length; j++) {
-                            updatedFUSHypProbability.add(model.fWeightHyps[j].getProbability());
+                            //updatedFUSHypProbability.add(model.fWeightHyps[j].getProbability());
+                            //System.out.println(updatedFUSHypProbability);
                         }
                         maxTime -= timeStep;
                         i++;
                         timeStep += i;
                     }
                 }
+                //System.out.println(updatedFUSHypProbability);
+                System.out.println("All Bids before: "+allBidsBefore.size());
+                for (int j = 0; j < allBidsBefore.size(); j++) {
+                    UtilitySpaceHypothesis hyp = allBidsBefore.get(j);
+                    double condDistrib = hyp.getProbability();
+                    oldfUSHypProbability.add(condDistrib);
+                }
+
+                for (int j = 0; j < allBidsBefore.size(); j++) {
+                    UtilitySpaceHypothesis hyp = allBidsAfter.get(i);
+                    double condDistrib = hyp.getProbability();
+                    newUpdatedFUSHypProbability.add(condDistrib);
+                }
+                System.out.println("Size of  old list"+oldfUSHypProbability.size());
+                System.out.println("Size of  new list"+newUpdatedFUSHypProbability.size());
+                for(int k = 0; k<5;k++){
+                    System.out.println("Values of  old list:"+oldfUSHypProbability.get(k));
+                    System.out.println("Values of  new list:"+newUpdatedFUSHypProbability.get(k));
+                }
 
                 // Calculate the distance between the probabilities of fUSHyp and updatedFUSHyp
-                for(int j = 0; j<fUSHypProbability.size() && j < updatedFUSHypProbability.size(); j++){
-                    double distanceBetweenHypSpaces = this.getJS_Divergence(fUSHypProbability, updatedFUSHypProbability);
+                for(int j = 0; j<oldfUSHypProbability.size() && j < newUpdatedFUSHypProbability.size(); j++){
+                    double distanceBetweenHypSpaces = this.getJS_Divergence(oldfUSHypProbability, newUpdatedFUSHypProbability);
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -157,19 +195,26 @@ public class Group7_OM extends OpponentModel {
             return set;
         }
 
-        public double getJS_Divergence(List<Double> first, List<Double> second){
+        public double getJS_Divergence(List<Double> firstProb, List<Double> secondProb){
             List<Double> divergence = new ArrayList<>();
-            for(int i = 0; i < first.size()-1; i++){
-                double val = (first.get(i)+second.get(i))/2;
+            for(int i = 0; i < firstProb.size()-1; i++){
+                double val = (firstProb.get(i)+ secondProb.get(i))/2;
                 divergence.add(val);
             }
-            return getKL_Divergence(first, divergence)/2 + getKL_Divergence(second, divergence)/2;
+            return getKL_Divergence(firstProb, divergence)/2 + getKL_Divergence(secondProb, divergence)/2;
         }
 
-        public double getKL_Divergence(List<Double> first, List<Double> second){
+        public double getKL_Divergence(List<Double> firstProb, List<Double> secondProb){
             double divergence = 0;
-            for(int i = 0; i < first.size()-1; i++)
-                divergence = first.get(i) + Math.log(first.get(i)/second.get(i));
+            double val ;
+            for(int i = 0; i < firstProb.size()-1; i++) {
+                val = Math.log(firstProb.get(i) / secondProb.get(i));
+                if(val == 0)
+                    divergence += firstProb.get(i) * 1;
+                else
+                    divergence += firstProb.get(i) *val;
+            }
+            System.out.println("Divergence:---------" + divergence);
             return divergence;
         }
 }

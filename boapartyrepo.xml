@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <boaPartiesList>
-    <boaparties partyName="Agent 007 0.5">
+    <boaparties partyName="Agent-007">
         <properties/>
         <biddingStrategy>
-            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
+            <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <parameters name="abs_thresh" value="0.6"/>
-            <parameters name="time to start declining" value="0.6"/>
-            <parameters name="amount of opponent bids used" value="5.0"/>
-            <parameters name="first reservation value" value="0.9"/>
             <parameters name="rate of decline" value="0.866"/>
-            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+            <parameters name="abs_thresh" value="0.6"/>
+            <parameters name="first reservation value" value="0.9"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="time to start declining" value="0.6"/>
+            <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
         </acceptanceStrategy>
         <opponentModel>
             <parameters name="m" value="0.0"/>
-            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OM.class"/>
+            <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OM.class"/>
         </opponentModel>
         <omStrategy>
             <parameters name="t" value="1.1"/>
-            <item classpath="negotiator.boaframework.omstrategy.BestBid"/>
+            <item classpath="D:\MultiAgentSystems\NegotiationProject\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OMS.class"/>
         </omStrategy>
     </boaparties>
 </boaPartiesList>

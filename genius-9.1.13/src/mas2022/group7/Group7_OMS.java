@@ -96,6 +96,6 @@ public class Group7_OMS extends OMStrategy {
 
     @Override
     public String getName() {
-        return "BestBid example";
+        return "Agent-007OMS";
     }
 }
