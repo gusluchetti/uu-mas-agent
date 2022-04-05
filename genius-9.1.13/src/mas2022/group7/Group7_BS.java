@@ -1,6 +1,5 @@
 package src.mas2022.group7;
 
-import agents.bayesianopponentmodel.BayesianOpponentModel;
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.*;
 import genius.core.misc.Range;
@@ -81,8 +80,6 @@ public class Group7_BS extends OfferingStrategy {
             BidDetails lastBid = negotiationSession.getOpponentBidHistory().getFirstBidDetails();
             for (BidDetails bd: spacedBids) {
                 double evaluatingBid = this.opponentModel.getBidEvaluation(lastBid.getBid());
-                // System.out.println(evaluatingBid);
-                // System.out.println(bd);
                 if (evaluatingBid > bestBid) {
                     bestBid = evaluatingBid;
                     bid = bd;
