@@ -1,5 +1,6 @@
 package src.mas2022.group7;
 
+import agents.bayesianopponentmodel.BayesianOpponentModel;
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.*;
 import genius.core.misc.Range;
@@ -22,7 +23,6 @@ public class Group7_BS extends OfferingStrategy {
 
     @Override
     public void init(NegotiationSession negotiationSession, OpponentModel opponentModel, OMStrategy omStrategy, Map<String, Double> parameters) throws Exception {
-        this.opponentModel = opponentModel;
         super.init(negotiationSession, opponentModel, omStrategy, parameters);
     }
 
@@ -78,10 +78,11 @@ public class Group7_BS extends OfferingStrategy {
             double bestBid = -999;
             // choose starting point based on opponent model
             // attempt to find the most beneficial agreement for both parties
+            BidDetails lastBid = negotiationSession.getOpponentBidHistory().getFirstBidDetails();
             for (BidDetails bd: spacedBids) {
-                double evaluatingBid = this.opponentModel.getBidEvaluation(bd.getBid());
-                System.out.println(evaluatingBid);
-                System.out.println(bd);
+                double evaluatingBid = this.opponentModel.getBidEvaluation(lastBid.getBid());
+                // System.out.println(evaluatingBid);
+                // System.out.println(bd);
                 if (evaluatingBid > bestBid) {
                     bestBid = evaluatingBid;
                     bid = bd;

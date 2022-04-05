@@ -1,24 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <boaPartiesList>
+    <boaparties partyName="Default Bayesian - Agent 007">
+        <properties/>
+        <biddingStrategy>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
+        </biddingStrategy>
+        <acceptanceStrategy>
+            <parameters name="time to start declining" value="0.6"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="first res value" value="0.9"/>
+            <parameters name="abs_tresh" value="0.8"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+        </acceptanceStrategy>
+        <opponentModel>
+            <parameters name="m" value="0.0"/>
+            <item classpath="negotiator.boaframework.opponentmodel.BayesianModel"/>
+        </opponentModel>
+        <omStrategy>
+            <parameters name="t" value="1.1"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OMS.class"/>
+        </omStrategy>
+    </boaparties>
+    <boaparties partyName="Scalable Bayesian - Agent 007">
+        <properties/>
+        <biddingStrategy>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
+        </biddingStrategy>
+        <acceptanceStrategy>
+            <parameters name="first res value" value="0.9"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="abs_tresh" value="0.8"/>
+            <parameters name="time to start declining" value="0.6"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+        </acceptanceStrategy>
+        <opponentModel>
+            <item classpath="negotiator.boaframework.opponentmodel.ScalableBayesianModel"/>
+        </opponentModel>
+        <omStrategy>
+            <parameters name="t" value="1.1"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OMS.class"/>
+        </omStrategy>
+    </boaparties>
+    <boaparties partyName="HardHeaded - Agent 007">
+        <properties/>
+        <biddingStrategy>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
+        </biddingStrategy>
+        <acceptanceStrategy>
+            <parameters name="first res value" value="0.9"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="abs_tresh" value="0.8"/>
+            <parameters name="time to start declining" value="0.6"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+        </acceptanceStrategy>
+        <opponentModel>
+            <parameters name="l" value="0.2"/>
+            <item classpath="negotiator.boaframework.opponentmodel.HardHeadedFrequencyModel"/>
+        </opponentModel>
+        <omStrategy>
+            <parameters name="t" value="1.1"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OMS.class"/>
+        </omStrategy>
+    </boaparties>
+    <boaparties partyName="Test Party">
+        <properties/>
+        <biddingStrategy>
+            <item classpath="negotiator.boaframework.offeringstrategy.anac2010.IAMhaggler2010_Offering"/>
+        </biddingStrategy>
+        <acceptanceStrategy>
+            <parameters name="first res value" value="0.9"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="abs_tresh" value="0.8"/>
+            <parameters name="time to start declining" value="0.6"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
+        </acceptanceStrategy>
+        <opponentModel>
+            <parameters name="u" value="0.0"/>
+            <parameters name="b" value="1.0"/>
+            <item classpath="negotiator.boaframework.opponentmodel.IAMhagglerBayesianModel"/>
+        </opponentModel>
+        <omStrategy>
+            <item classpath="negotiator.boaframework.omstrategy.NTFTstrategy"/>
+        </omStrategy>
+    </boaparties>
     <boaparties partyName="Agent 007 - 0.5">
         <properties/>
         <biddingStrategy>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <parameters name="amount of opponent bids used" value="5.0"/>
-            <parameters name="time to start declining" value="0.6"/>
-            <parameters name="abs_tresh" value="0.8"/>
             <parameters name="first res value" value="0.9"/>
+            <parameters name="abs_tresh" value="0.8"/>
+            <parameters name="time to start declining" value="0.6"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
         </acceptanceStrategy>
         <opponentModel>
-            <parameters name="m" value="0.0"/>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OM.class"/>
         </opponentModel>
         <omStrategy>
-            <parameters name="t" value="1.1"/>
-            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OMS.class"/>
+            <item classpath="negotiator.boaframework.omstrategy.NTFTstrategy"/>
         </omStrategy>
     </boaparties>
 </boaPartiesList>
