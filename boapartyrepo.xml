@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <boaPartiesList>
-    <boaparties partyName="Test Agent 007">
+    <boaparties partyName="Agent 007 - 0.7">
         <properties/>
         <biddingStrategy>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <parameters name="time to start declining" value="0.6"/>
-            <parameters name="amount of opponent bids used" value="5.0"/>
             <parameters name="first utility value" value="0.95"/>
+            <parameters name="amount of opponent bids used" value="5.0"/>
+            <parameters name="time to start declining" value="0.6"/>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_AS.class"/>
         </acceptanceStrategy>
         <opponentModel>
-            <parameters name="m" value="0.0"/>
             <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OM.class"/>
         </opponentModel>
         <omStrategy>
-            <item classpath="negotiator.boaframework.omstrategy.NTFTstrategy"/>
+            <parameters name="t" value="1.1"/>
+            <item classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\src\mas2022\group7\Group7_OMS.class"/>
         </omStrategy>
     </boaparties>
 </boaPartiesList>

@@ -10,10 +10,15 @@ import java.util.*;
 // Code taken from BestBid example.
 public class Group7_OMS extends OMStrategy {
     /**
-     * when to stop updating the opponentmodel. Note that this value is not
+     * when to stop updating the opponent model. Note that this value is not
      * exactly one as a match sometimes lasts slightly longer.
      */
     double updateThreshold = 1.1;
+
+    @Override
+    public String getName() {
+        return "2022 - Agent 007 Opponent Model Strategy";
+    }
 
     /**
      * Initializes the opponent model strategy. If a value for the parameter t
@@ -29,7 +34,7 @@ public class Group7_OMS extends OMStrategy {
     public void init(NegotiationSession negotiationSession, Map<String, Double> parameters) {
         super.init(negotiationSession, parameters);
         if (parameters.get("t") != null) {
-            updateThreshold = parameters.get("t").doubleValue();
+            updateThreshold = parameters.get("t");
         } else {
             System.out.println("OMStrategy assumed t = 1.1");
         }
@@ -45,7 +50,6 @@ public class Group7_OMS extends OMStrategy {
      */
     @Override
     public BidDetails getBid(List<BidDetails> allBids) {
-
         // 1. If there is only a single bid, return this bid
         if (allBids.size() == 1) {
             return allBids.get(0);
@@ -92,10 +96,5 @@ public class Group7_OMS extends OMStrategy {
         Set<BOAparameter> set = new HashSet<>();
         set.add(new BOAparameter("t", 1.1, "Time after which the OM should not be updated"));
         return set;
-    }
-
-    @Override
-    public String getName() {
-        return "Agent-007OMS";
     }
 }

@@ -6,9 +6,7 @@ import genius.core.misc.Range;
 import genius.core.timeline.TimeLineInfo;
 import genius.core.utility.AbstractUtilitySpace;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Group7_BS extends OfferingStrategy {
@@ -30,6 +28,11 @@ public class Group7_BS extends OfferingStrategy {
         return negotiationSession.getMaxBidinDomain();
     }
 
+    private double getAverageUtilityOfBidsOnDomain() {
+        AbstractUtilitySpace utilitySpace = negotiationSession.getUtilitySpace();
+        return 0D;
+    };
+
     @Override
     public BidDetails determineNextBid() {
         AbstractUtilitySpace utilitySpace = negotiationSession.getUtilitySpace();
@@ -42,8 +45,10 @@ public class Group7_BS extends OfferingStrategy {
 
         // phase 1
         List<BidDetails> greatBids = outcomeSpace.getBidsinRange(new Range(0.90, 1.00));
-        // todo: use divergence distance (smaller than 0.1 and 20% of the time has passed) to pass the phase
-        if (timeline.getTime() / timeline.getTotalTime() * 100 <= 0.50) {
+
+
+        if (
+                || timeline.getTime() <= 0.50) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, greatBids.size());
             bid = greatBids.get(randomNum);
             return bid;

@@ -16,6 +16,13 @@ public class Group7_OM extends OpponentModel {
     FSEGAOpponentModel model;
     private int startingBidIssue = 0;
 
+    public KL
+
+    @Override
+    public String getName() {
+        return "2022 - Agent007 Opponent Model";
+    }
+
     @Override
     public void init(NegotiationSession negotiationSession, Map<String, Double> parameters) {
         this.negotiationSession = negotiationSession;
