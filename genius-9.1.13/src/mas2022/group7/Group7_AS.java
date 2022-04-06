@@ -141,26 +141,26 @@ public class Group7_AS extends AcceptanceStrategy {
         // if the average utility of the last bids is twice as small as the opponents bid
         // then it might be the case that we found a "good bid"
         // and thus if it is above a certain threshold then we accept.
-        List<BidDetails> nLastBids;
+        List<BidDetails> nOppLastBids;
         int oppHistorySize = oppBidHistory.size();
         if (allOppBids.size() < params.get(OPP_BIDS_AMOUNT).intValue()){
-            nLastBids = allOppBids.subList(0, oppHistorySize);
+            nOppLastBids = allOppBids.subList(0, oppHistorySize);
         }
         else{
-            nLastBids = allOppBids.subList(oppHistorySize - params.get(OPP_BIDS_AMOUNT).intValue(), oppHistorySize);
+            nOppLastBids = allOppBids.subList(oppHistorySize - params.get(OPP_BIDS_AMOUNT).intValue(), oppHistorySize);
         }
 
         double totalUtil = 0;
-        for (BidDetails nLastBid : nLastBids) {
+        for (BidDetails nLastBid : nOppLastBids) {
             totalUtil += nLastBid.getMyUndiscountedUtil();
         }
-        double avgTotalUtil = totalUtil / nLastBids.size();
+        double avgTotalUtil = totalUtil / nOppLastBids.size();
 
         // it could be the case that the opponents makes bids that are a little below the acceptance utility and are an outlier compared
         // to the last previous bids, so it could be beneficial to accept the offer. (it perhaps is an onetime-offer)
         if (avgTotalUtil * 2 < lastOpponentBid.getMyUndiscountedUtil()
                 && lastOpponentBid.getMyUndiscountedUtil()> (acceptanceThreshold * 0.9)
-                && nLastBids.size() >= params.get(OPP_BIDS_AMOUNT).intValue() ) {
+                && nOppLastBids.size() >= params.get(OPP_BIDS_AMOUNT).intValue() ) {
             return Actions.Accept;
         }
 
