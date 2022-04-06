@@ -16,12 +16,21 @@ public class Group7_BS extends OfferingStrategy {
     public TimeLineInfo timeline;
     public List<Issue> issues;
 
+    public BidDetails actualBid;
+
     public boolean bidsWereFiltered = false;
+    public boolean acquiredInfo = false;
+    public boolean queueStarted = false;
     public double bestEval;
+
     public List<BidDetails> spacedBids = new ArrayList<>();
     public List<BidDetails> orderedBids = new ArrayList<>();
-    public double[] weights;
+    public List<BidDetails> queuedBids = new ArrayList<>();
     public List<Double> euclidianDistances = new ArrayList<>();
+
+    public double avgUtil = 0D;
+
+    public double[] weights;
     public double totalAvgDistance = 0;
 
     @Override
@@ -40,6 +49,10 @@ public class Group7_BS extends OfferingStrategy {
         outcomeSpace = new SortedOutcomeSpace(utilitySpace);
 
         orderedBids = outcomeSpace.getOrderedList();
+        actualBid = orderedBids.get(0);
+
+        avgUtil = this.getAvgUtilAllBids();
+
         spacedBids.add(orderedBids.get(0));
         issues = this.negotiationSession.getIssues();
         weights = new double[issues.size()];
@@ -81,45 +94,51 @@ public class Group7_BS extends OfferingStrategy {
 
     @Override
     public BidDetails determineNextBid() {
-        BidDetails bid = orderedBids.get(0);
-        // phase 1 - random great bids (great bids are determined based on domain)
-        List<BidDetails> greatBids = outcomeSpace.getBidsinRange(new Range(0.90, 1.00));
+        double dif = negotiationSession.getMaxBidinDomain().getMyUndiscountedUtil() - avgUtil;
+        double greatThresh = avgUtil + (0.6 * dif);
 
-        // getting latest opponent weights for each issue
-        double[] newWeights = new double[issues.size()];
-        for (int i=0;i<issues.size();i++) {
-            newWeights[i] = this.opponentModel.getWeight(issues.get(i));
-        }
-
-        euclidianDistances.add(getDistanceBetweenWeights(newWeights));
-        weights = newWeights.clone();
-        double sum = 0D;
-
-        for (double d : euclidianDistances) {
-            if (euclidianDistances.indexOf(d) != 0
-                && euclidianDistances.indexOf(d) != 1) {
-                sum += d;
+        // phase 1 - acquiring info about opponent
+        do {
+            // getting latest opponent weights for each issue
+            double[] newWeights = new double[issues.size()];
+            for (int i=0;i<issues.size();i++) {
+                newWeights[i] = this.opponentModel.getWeight(issues.get(i));
             }
-        }
-        totalAvgDistance = sum / euclidianDistances.size();
-        boolean isUnderAvg = false;
-        if (negotiationSession.getOpponentBidHistory().getHistory().size() > 5) {
-            isUnderAvg = isLastNUnderAvg(5);
-        }
 
-        if ((isUnderAvg && timeline.getTime() <= 0.20) || (!isUnderAvg && timeline.getTime() <= 0.60)) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, greatBids.size());
-            bid = greatBids.get(randomNum);
-            return bid;
-        }
+            euclidianDistances.add(getDistanceBetweenWeights(newWeights));
+            weights = newWeights.clone();
+            double sum = 0D;
+
+            for (double d : euclidianDistances) {
+                if (euclidianDistances.indexOf(d) != 0
+                        && euclidianDistances.indexOf(d) != 1) {
+                    sum += d;
+                }
+            }
+            totalAvgDistance = sum / euclidianDistances.size();
+            boolean isUnderAvg = false;
+            if (negotiationSession.getOpponentBidHistory().getHistory().size() > 5) {
+                isUnderAvg = isLastNUnderAvg(5);
+            }
+
+            // random great bids (great bids are determined based on domain)
+            if ((isUnderAvg && timeline.getTime() <= 0.20) || (!isUnderAvg && timeline.getTime() <= 0.60)) {
+                List<BidDetails> greatBids = outcomeSpace.getBidsinRange(new Range(greatThresh, 1.00));
+                int randomNum = ThreadLocalRandom.current().nextInt(0, greatBids.size());
+                actualBid = greatBids.get(randomNum);
+                return actualBid;
+            } else {
+                acquiredInfo = true;
+            }
+        } while (!acquiredInfo);
 
         // phase 2
         // filtering good bids that are spaced out on their preferences (high utility but different preferences)
         if (!bidsWereFiltered) {
-            bestEval = -999;
             bidsWereFiltered = true;
-
+            bestEval = -999;
             boolean isDistant = true;
+
             for (BidDetails bd : orderedBids) {
                 for (BidDetails spacedBid : spacedBids) {
                     double dist = spacedBid.getBid().getDistance(bd.getBid());
@@ -128,7 +147,8 @@ public class Group7_BS extends OfferingStrategy {
                         break;
                     }
                 }
-                if (isDistant && bd.getMyUndiscountedUtil() > 0.60) {
+
+                if (isDistant && bd.getMyUndiscountedUtil() > greatThresh) {
                     spacedBids.add(bd);
                 }
                 isDistant = true;
@@ -139,17 +159,29 @@ public class Group7_BS extends OfferingStrategy {
         // looking at all the spaced out bids and seeing what matches best with our opponent model
         if (bidsWereFiltered) {
             // choose starting point based on opponent model
-            // attempt to find the most beneficial agreement for both parties
-            BidDetails lastBid = negotiationSession.getOpponentBidHistory().getLastBidDetails();
-            for (BidDetails bd: spacedBids) {
-                double lastBidEval = this.opponentModel.getBidEvaluation(bd.getBid());
-                if (lastBidEval > bestEval) {
-                    bestEval = lastBidEval;
-                    bid = bd;
+            queuedBids = spacedBids;
+            if (!queueStarted) {
+                bestEval = opponentModel.getBidEvaluation(queuedBids.get(0).getBid());
+                queueStarted = true;
+                return actualBid;
+            } else {
+                int chosenIndex = 0;
+                for (int i=0;i<queuedBids.size()-1;i++) {
+                    double eval = opponentModel.getBidEvaluation(queuedBids.get(i).getBid());
+                    if (eval >= bestEval) {
+                        bestEval = eval;
+                        actualBid = queuedBids.get(i);
+                        chosenIndex = i;
+                        break;
+                    }
+                }
+
+                if (!queuedBids.isEmpty()) {
+                    queuedBids.remove(chosenIndex);
                 }
             }
         }
 
-        return bid;
+        return actualBid;
     }
 }

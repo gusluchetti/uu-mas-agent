@@ -31,10 +31,8 @@ public class Group7_OM extends OpponentModel {
     private Double maxUtility;
     private Double minUtility;
     private double[] expectedWeights;
-    private final double SIGMA = 0.25;
     private Domain domain;
     private AdditiveUtilitySpace utilitySpace;
-    private boolean useAll = false;
     private int startingBidIssue = 0;
 
     @Override
@@ -120,7 +118,7 @@ public class Group7_OM extends OpponentModel {
      * Initialise the evaluator hypotheses.
      */
     private void initEvaluatorHypotheses() {
-        evaluatorHypotheses = new ArrayList<ArrayList<EvaluatorHypothesis>>();
+        evaluatorHypotheses = new ArrayList<>();
         for (int i = 0; i < utilitySpace.getNrOfEvaluators(); ++i) {
             ArrayList<EvaluatorHypothesis> lEvalHyps;
             EvaluatorReal lHypEvalReal;
@@ -128,7 +126,7 @@ public class Group7_OM extends OpponentModel {
             EvaluatorHypothesis lEvaluatorHypothesis;
             switch (utilitySpace.getEvaluator(utilitySpace.getIssue(i).getNumber()).getType()) {
                 case REAL: {
-                    lEvalHyps = new ArrayList<EvaluatorHypothesis>();
+                    lEvalHyps = new ArrayList<>();
                     evaluatorHypotheses.add(lEvalHyps);
 
                     IssueReal lIssue = (IssueReal) utilitySpace.getIssue(i);
@@ -182,7 +180,7 @@ public class Group7_OM extends OpponentModel {
                     break;
                 }
                 case INTEGER: {
-                    lEvalHyps = new ArrayList<EvaluatorHypothesis>();
+                    lEvalHyps = new ArrayList<>();
                     evaluatorHypotheses.add(lEvalHyps);
 
                     IssueInteger lIssue = (IssueInteger) utilitySpace.getIssue(i);
@@ -593,9 +591,9 @@ public class Group7_OM extends OpponentModel {
      *            The utility.
      * @param previousBidUtility
      *            The utility of the previous bid.
-     * @return
      */
     private double conditionalDistribution(double utility, double previousBidUtility) {
+        final double SIGMA = 0.25;
         double x = (previousBidUtility - utility) / previousBidUtility;
         return (1.0 / (SIGMA * Math.sqrt(2 * Math.PI))) * Math.exp(-(x * x) / (2 * SIGMA * SIGMA));
     }
@@ -609,7 +607,6 @@ public class Group7_OM extends OpponentModel {
      *            The number of the issue to get the expected evaluation value
      *            of.
      * @return the expected evaluation value of a bid for a particular issue.
-     * @throws Exception
      */
     private double getExpectedEvaluationValue(Bid bid, int number) throws Exception {
         double expectedEval = 0;
