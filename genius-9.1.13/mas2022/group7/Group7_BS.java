@@ -1,4 +1,4 @@
-package src.mas2022.group7;
+package mas2022.group7;
 
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.*;
@@ -10,6 +10,8 @@ import genius.core.utility.AbstractUtilitySpace;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+// We came up with the different phases of the bidding strategy
+// (randomizing initial bids, spacing bids out, panicking)
 public class Group7_BS extends OfferingStrategy {
     public AbstractUtilitySpace utilitySpace;
     public SortedOutcomeSpace outcomeSpace;
@@ -94,10 +96,24 @@ public class Group7_BS extends OfferingStrategy {
 
     @Override
     public BidDetails determineNextBid() {
+        // setting threshold of what is considered a 'great' bid based on time left
         double dif = negotiationSession.getMaxBidinDomain().getMyUndiscountedUtil() - avgUtil;
-        double greatThresh = avgUtil + (0.6 * dif);
+        double greatThresh = avgUtil + ((1 - timeline.getTime() / 2) * dif);
 
-        // phase 1 - acquiring info about opponent
+        // panic - try three random bids right at the end
+        if (timeline.getTime() >= 0.98) {
+            int r = ThreadLocalRandom.current().nextInt(0, 3);
+            switch (r) {
+                case 0:
+                    return outcomeSpace.getBidNearUtility(negotiationSession.getMaxBidinDomain().getMyUndiscountedUtil() * 0.90);
+                case 1:
+                    return negotiationSession.getOpponentBidHistory().getNBestBids(1).get(0);
+                case 2:
+                    return actualBid;
+            }
+        }
+
+        // acquiring info about opponent
         do {
             // getting latest opponent weights for each issue
             double[] newWeights = new double[issues.size()];
@@ -132,9 +148,8 @@ public class Group7_BS extends OfferingStrategy {
             }
         } while (!acquiredInfo);
 
-        // phase 2
         // filtering good bids that are spaced out on their preferences (high utility but different preferences)
-        if (!bidsWereFiltered) {
+        // if (!bidsWereFiltered) {
             bidsWereFiltered = true;
             bestEval = -999;
             boolean isDistant = true;
@@ -153,9 +168,8 @@ public class Group7_BS extends OfferingStrategy {
                 }
                 isDistant = true;
             }
-        }
+        // }
 
-        // phase 3 - exploratory phase
         // looking at all the spaced out bids and seeing what matches best with our opponent model
         if (bidsWereFiltered) {
             // choose starting point based on opponent model
@@ -172,7 +186,6 @@ public class Group7_BS extends OfferingStrategy {
                         bestEval = eval;
                         actualBid = queuedBids.get(i);
                         chosenIndex = i;
-                        break;
                     }
                 }
 

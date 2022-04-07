@@ -1,4 +1,4 @@
-package src.mas2022.group7;
+package mas2022.group7;
 
 import genius.core.BidHistory;
 import genius.core.bidding.BidDetails;

@@ -1,4 +1,4 @@
-package src.mas2022.group7;
+package mas2022.group7;
 
 import agents.bayesianopponentmodel.EvaluatorHypothesis;
 import agents.bayesianopponentmodel.Hypothesis;
@@ -22,6 +22,9 @@ import java.util.Map;
 
 // Code mostly taken from existing 'PerfectIAMhagglerBayesianModel'
 // We've done a bit of refactoring in the code, and everything else we added is commented in.
+
+// We struggled to get a working Bayesian model within the Genius Library and this was the one that
+// was not only the least buggy, but the easiest to modify/debug.
 
 public class Group7_OM extends OpponentModel {
     private List<BidDetails> biddingHistory;

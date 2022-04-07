@@ -1,4 +1,4 @@
-package src.mas2022.group7;
+package mas2022.group7;
 
 import genius.core.bidding.BidDetails;
 import genius.core.boaframework.BOAparameter;
