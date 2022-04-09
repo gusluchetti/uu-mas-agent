@@ -2,7 +2,6 @@
 <repository fileName="boarepository.xml">
 	<biddingstrategies>
 		<biddingstrategy description="2010 - Agent K" classpath="negotiator.boaframework.offeringstrategy.anac2010.AgentK_Offering"/>
-		<biddingstrategy description="007-BS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_BS.class"/>
 		<biddingstrategy description="2010 - Yushu" classpath="negotiator.boaframework.offeringstrategy.anac2010.Yushu_Offering"/>
 		<biddingstrategy description="2012 - AgentLG" classpath="negotiator.boaframework.offeringstrategy.anac2012.AgentLG_Offering"/>
 		<biddingstrategy description="2012 - BRAMAgent2" classpath="negotiator.boaframework.offeringstrategy.anac2012.BRAMAgent2_Offering"/>
@@ -28,6 +27,7 @@
 		<biddingstrategy description="2012 - AgentMR" classpath="negotiator.boaframework.offeringstrategy.anac2012.AgentMR_Offering"/>
 		<biddingstrategy description="Other - Offer decreasing utility" classpath="negotiator.boaframework.offeringstrategy.other.ChoosingAllBids"/>
 		<biddingstrategy description="2012 - CUHKAgent" classpath="negotiator.boaframework.offeringstrategy.anac2012.CUHKAgent_Offering"/>
+		<biddingstrategy description="007BS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\mas2022\group7\Group7_BS.class"/>
 		<biddingstrategy description="2013 - InoxAgent_OneIssue" classpath="negotiator.boaframework.offeringstrategy.anac2013.InoxAgent_Offering_OneIssue"/>
 		<biddingstrategy description="2012 - OMACagent" classpath="negotiator.boaframework.offeringstrategy.anac2012.OMACagent_Offering"/>
 		<biddingstrategy description="2011 - IAMHaggler2011" classpath="negotiator.boaframework.offeringstrategy.anac2011.IAMhaggler2011_Offering"/>
@@ -43,6 +43,7 @@
 		<acceptancecondition description="Other - Previous" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Previous"/>
 		<acceptancecondition description="Multi Acceptance Criteria" classpath="genius.core.boaframework.Multi_AcceptanceCondition"/>
 		<acceptancecondition description="2012 - IAMHaggler2012" classpath="negotiator.boaframework.acceptanceconditions.anac2012.AC_IAMHaggler2012"/>
+		<acceptancecondition description="007AS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\mas2022\group7\Group7_AS.class"/>
 		<acceptancecondition description="Other - Uncertain" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Uncertain"/>
 		<acceptancecondition description="2011 - BRAMAgent" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_BRAMAgent"/>
 		<acceptancecondition description="2011 - Nice-Tit-For-Tat" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_NiceTitForTat"/>
@@ -57,7 +58,6 @@
 		<acceptancecondition description="Other - False" classpath="negotiator.boaframework.acceptanceconditions.other.AC_False"/>
 		<acceptancecondition description="2010 - Agent FSEGA" classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_AgentFSEGA"/>
 		<acceptancecondition description="2010 - IAMcrazyHaggler" classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_IAMcrazyHaggler"/>
-		<acceptancecondition description="007-AS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\bilateralexamples\Group7_AS.class"/>
 		<acceptancecondition description="Other - CombiV3" classpath="negotiator.boaframework.acceptanceconditions.other.AC_CombiV3"/>
 		<acceptancecondition description="2013 - TheFawkes" classpath="negotiator.boaframework.acceptanceconditions.anac2013.AC_TheFawkes"/>
 		<acceptancecondition description="2011 - HardHeaded" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_HardHeaded"/>
@@ -81,6 +81,7 @@
 		<opponentmodel description="InoxAgent_OM" classpath="negotiator.boaframework.opponentmodel.InoxAgent_OM"/>
 		<opponentmodel description="FSEGA Bayesian Model" classpath="negotiator.boaframework.opponentmodel.FSEGABayesianModel"/>
 		<opponentmodel description="Perfect IAMhaggler Bay. Model" classpath="negotiator.boaframework.opponentmodel.PerfectIAMhagglerBayesianModel"/>
+		<opponentmodel description="007OM" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\mas2022\group7\Group7_OM.class"/>
 		<opponentmodel description="Opposite Model" classpath="negotiator.boaframework.opponentmodel.OppositeModel"/>
 		<opponentmodel description="Scalable Bayesian Model" classpath="negotiator.boaframework.opponentmodel.ScalableBayesianModel"/>
 		<opponentmodel description="No Model" classpath="genius.core.boaframework.NoModel"/>
@@ -100,9 +101,9 @@
 	</opponentmodels>
 	<omstrategies>
 		<omstrategy description="NTFT" classpath="negotiator.boaframework.omstrategy.NTFTstrategy"/>
-		<omstrategy description="Best bid" classpath="negotiator.boaframework.omstrategy.BestBid"/>
 		<omstrategy description="Random" classpath="negotiator.boaframework.omstrategy.NullStrategy"/>
 		<omstrategy description="Offer best n" classpath="negotiator.boaframework.omstrategy.OfferBestN"/>
+		<omstrategy description="007OMS" classpath="C:\Users\Gustavo Luchetti\Documents\Git Repos\uu-mas-agent\out\production\uu-mas-agent\mas2022\group7\Group7_OMS.class"/>
 		<omstrategy description="TheFawkes" classpath="negotiator.boaframework.omstrategy.TheFawkes_OMS"/>
 	</omstrategies>
 </repository>
