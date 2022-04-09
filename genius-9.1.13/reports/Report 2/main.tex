@@ -1,0 +1,95 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[super]{nth}
+
+\title{Multi-Agent Systems Lab - Report 2}
+\author{Group 7}
+
+\begin{document}
+\maketitle
+
+\section{2nd Question}
+
+\begin{enumerate}[label=(\alph*)]
+\item
+\textbf{PEAS Description}
+\newline
+\textbf{- Performance}: The agent should maximize its utility. The performance of the agent is the total achieved utility in a tournament with all available agents from the ANAC 2011 finals using the Amsterdam Trip domain with 60-second turn-wise bilateral negotiations, without a discount or a reservation value. The agent cannot be specialized against these agents or on this domain, but it can be specialized in turn-wise bilateral 60-second negotiations without a discount or a reservation value on a domain with only discrete issues. We believe it is a reasonable goal to attempt to achieve an average utility of 75\% on this domain.
+
+\quad The Amsterdam Trip domain was selected because it was one of the domains used in the 2011 ANAC competition. It is a medium-sized domain, and one of the few with only discrete values and without a reservation value or discount. The only disadvantage is that it was submitted by an agent in the tournament, but as the team that submitted it did not score disproportionally well, this effect is minimal.\\
+
+\textbf{- Environment}: The agent will be in a negotiation with another agent. The entire negotiation will take place within the GeniusAPI that has been specified to be used for this assignment. The environment consists of two parties, the agent that we will design and the opponent's agent that we will be negotiating with. The entire negotiation will end when the two agents reach an agreement, one of the agents leaves the negotiation ,or when the time runs out. The GeniusAPI will have access to both party's preferences in order to generate a Pareto Optimal Frontier, which can be used to test and find out whether our agent is making bids close to this frontier. There are multiple domains in which the agent will be able to take part in negotiations. These negotiations take place in real-time. The API allows the agents to use multiple preferences which means that our agent will be able to work with any of the existing preferences.\\ 
+
+\textbf{- Actuators}: Our agent has three actions at any moment during its turn: Accepting a bid, making an offer, or ending the negotiation. However, the last is only useful if there are reservation values and a discount, both of which are not enabled in the tournament.\\
+
+\textbf{- Sensors}:  Our agent has knowledge of the domain he is in, his own preferences, the opposing agent's bids (and subsequently, its bid history), the number of bids made at any given point, and the time remaining on the negotiation.\\
+
+\begin{comment}
+We would like if our agent were above-average, being able to at least get 60\% utility on any given negotiation. Given that we are using the Genius API to develop our negotiation agent, it should be able to work in any of the available domains, and against any type of opponent. The 3 actions an agent can do in a negotiation are: Make a bid, accept an opponent's bid or end the negotiation altogether. Our agent has knowledge of the domain he is in, his own preferences, the opposing agent's bids (and subsequently, its bid history), the number of bids made at any given point, and the time remaining on the negotiation.
+\end{comment}
+
+\item
+\textbf{Provide a small description of the role of each component in the BOA
+framework, as well as a high-level description of your envisioned design for each component for your agent. Discuss which parts will build on existing techniques and which parts will be new.}
+
+
+\textbf{- Acceptance Strategy}: The acceptance strategy is the strategy used by the agents that indicates whether or not the agent should accept the opponent's bid. The acceptance strategy we are going to use depends on both the time remaining and the utility of the offers, since having both components in it could increase the performance \cite{baarslag}. The time component is essential because both agents are incentivized to reach an agreement, else both agents would get an utility of 0. The acceptance of the opponents bid will depend on multiple issues, first one being time. The reservation value, the lowest value that the agent will accept, will slowly decrease over time, for example, the reservation value will decrease from 0.9 to 0.65 in a non-linear fashion. It will decrease at a faster rate when the deadline is closer, otherwise the agent would accept an offer while it could have gotten a better offer. The agent will also accept when the utility of a received offer is higher than our next bid or else it might be the case that they accept our next bid and thus will result in a lower utility then if we would have accepted their previous bid.
+
+\quad Another component in our acceptance strategy could be that if we know the opponents strategy, we could slightly change our acceptance strategy to it. If we know that the opponent will stay at the same utility level for a long time and at the end go down rapidly, then it could be possible to only accept a bid at a later time because at that time the other agent is conceding a lot and thus a better offer could appear. It will be quite difficult however to learn the opponent strategy if only one negotiation is done. 
+It could also be interesting to include a component that could react to the opponent's actions. A way to incorporate this is the following. If we modelled the preferences of the opponent then we could notice when the opponent is conceding quite a bit into our direction. It could be the case that this is the best bid they would offer and thus accepting it would be wise. Our agent should be able to notice when an offer of the opponent is a “best” bid and a way to perhaps see this is to look at the opponent history of bids. When their next bid has a way higher utility for us than the average utility of their previous bids then it might be the case we found the odd one out and a possible “best” bid. Thus we should at least consider accepting the offer if we think it might be the agreement with the highest possible utility for us. These components themselves have been used in other agents, however by combining the three a new kind of acceptance strategy could be formed.\\
+
+\textbf{- Offering/Bidding Strategy}: The role of the bidding strategy is to construct the agent's bids. This includes coming up with the first bid and all subsequent bids after that; that is, of course, if it is not more beneficial to accept the current bid; the bidding strategy constantly relies on the acceptance strategy. In our agent's case, it will use a offering strategy similar to the one used in an NegoTO agent \cite{rosraquel}, a combination of both the NegoEngine and trade-off models. 
+
+\quad NegoEngine is based on defining a set of tactics (which can be time-dependent or behaviour-dependent), where each tactic calculates the value of a decision variable \cite{FARATIN1998159}. In other words, for every variable that is being considered in the negotiation, in the party domain, those would be food, drinks, location, invitations, music and cleanup. Each tactic computes a bid for each variable, and the final bid is the weighted combination of all of these values. The trade-off model, on the other hand, attempts to find a bid with the same utility for our own agent, but one that is more acceptable to the opposing agent \cite{Faratin2002}. This will also go hand-in-hand with our own opponent model, since a better prediction of what our opponent prefers facilitates the trade-off process.
+
+\quad By using both of these methods together, we attempt to capture the advantages of both models, and maximize our gained utility by only lowering our aspirations when they have absolutely no way of being reached, by only lowering our proposal's expected utility when a deadlock (when the last offer proposed by the opponent does not improve the utility of the offer proposed two steps before) occurs.\\
+ 
+\textbf{- Opponent Model}: The opponent model is the part of the agent in which we try to find out the preferences of the opponent. This is necessary, because a bid that is close to the Pareto frontier and where both agents are satisfied is easier to find. This is initially done by building a general preference profile of the opponent, which can be done by using a number of techniques that can help build a preference profile which will improve our future bids. Frequency modelling is the process of taking into account the number of times a certain value is proposed by the opponent which gives us an approximation of what the opponent wants. This also tells us how to change our bids in such a way that the next bid aligns better with the opponent's preferences. A way to improve this could be by weighting the number of times each value has been bid by the time the bid occurred, since earlier bids hold more valuable information than later bids. This is the case, because more often than not the opponent will start with bids close to its preference and will be deviating from them when time passes by. Another way to model the opponent is by using \textbf{Bayesian modelling} as stated by \cite{hindriks2008opponent} (2008). We start with multiple hypothesis, which come from a hypothesis space which still needs to be determined. The probability distribution of the hypotheses could be initialized as a uniform distribution if we have no information about the opponents preferences. Given a bid $E$ we adjust our hypotheses $H$ accordingly.
+The Bayesian theorem:
+$$
+P(H|E) =  \frac{P(H)P(E|H)}{P(E)}
+$$
+where,\\
+\quad -$P(H)$ is the probability of the proposed hypothesis.\\
+\quad -$P(E|H)$ is the conditional probability that is the probability that the bid is proposed given the hypothesis.  \\
+\quad -$P(E)$ is the probability of the evidence $E$.
+
+\quad The probability of a hypothesis of the opponent's preferences will be increased when the bids align with the preferences.
+The point at which opponent starts making large concessions is when we will stop updating our model, since the opponents bid will be further away from its preferences.
+
+
+\quad We are not yet sure whether we will use Bayesian learning or frequency modeling for our agent and if possible we will implement both and see which one works better with the other components of our agent.\\ 
+
+\emph{- Opponent Strategy Model}: Trying to figure out how much an opponent concedes is a pretty old idea, it is for example used by the IAMhaggler from the 2011 ANAC competition \cite{Williams2012}. However, as far as we know, all of the literature on the topic is about finding a concession rate in situations with a discount. In that case, both parties are motivated to find an agreement quickly, and are thus incentivised to make early concessions. The exact amount of incentive the parties have gives rise to a specific curve with unknown parameters that can be fit. However, without discounts, this is simply not the case. Therefore, we cannot assume a specific function. Instead we will look at the estimated utility according to our Opponent Model in the previous few rounds, and try to fit a linear curve on those. This is because we assume that the concession rate does not drastically change if there are very few rounds in between the measurements. The exact amount of bids considered will be determined by experimentation. We are essentially trying to determine the derivative of the utility of the opponents bids. This method does have the disadvantage over methods used in literature that it will not produce good estimates for the expected concession rate in the distant future. \\
+
+\textbf{- Opponent Model Strategy}: The opponent Model is used throughout the bidding and the acceptance component. Traditionally the bidding component produces a list of acceptable bids, and the opponent model strategy selects one according to the opponent's preferences. This is based on the idea that our own utility is the most important to the success of the agent, followed at a distance by the utility of the opponent. Unfortunately, more advanced models are not so simple. Many more factors are at play. Separating these two components is in our opinion not justified, as both of them do the same thing, looking at it from another perspective. Our bidding component will therefore select only a single bid, so the opponent model strategy will not be relevant. We will simply use the default best bid, which we might try to improve if we think it will be useful in our agent overall.\\
+
+\textbf{- A note on the lack of discounts}: As there are no discounts, there is no incentive to accept any deal before the deadline looms, assuming the opponent will always accept any bid they have offered themselves. In the 2010 ANAC, "Because of the lack of discount factors, almost every negotiation between the agents took the entire negotiation time of three minutes each to reach an agreement"\cite{Baarslag2012}\\
+For example, it might be a good idea to up the pressure by simply bidding our best bid and never compromise, until $x\%$ of the time has passed. We will potentially experiment with these kinds of ideas once the core of our agent is finished.
+\end{enumerate} 
+
+
+% References:
+% - T. Baarslag, K. Hindriks and C. Jonker , “Effective acceptance conditions in real-time automated negotiation,” Decision Support Systems, vol. 60, pp. 68–77, Apr 2014. [Online]. Available: http://dx.doi.org/10.1016/j.dss.2013.05. 021
+% - P. Faratin, C. Sierra, and N. R. Jennings, “Using similarity criteria to make issue trade-offs in
+% automated negotiations,” Artificial Intelligence, vol. 142, no. 2, pp. 205 – 237, 2002. [Online].
+% Available: http://www.sciencedirect.com/science/article/pii/S0004370202002904
+% - R. Ros and C. Sierra, “A negotiation meta strategy combining trade-off and concession moves,”
+% Autonomous Agents and Multi-Agent Systems, vol. 12, pp. 163–181, 2006. [Online]. Available:
+% http://dx.doi.org/10.1007/s10458-006-5837-z
+% - P. Faratin, C. Sierra, and N. R. Jennings, “Negotiation decision functions for autonomous agents,”
+% Robotics and Autonomous Systems, vol. 24, no. 3-4, pp. 159 – 182, 1998. [Online]. Available:
+% http://www.sciencedirect.com/science/article/pii/S0921889098000293
+
+\bibliographystyle{apalike}
+\bibliography{ref}
+
+\end{document}

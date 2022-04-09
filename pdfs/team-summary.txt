@@ -1,0 +1,13 @@
+Group 7 Team Overview
+
+Sergio Kazatzidis: Came up with most of the acceptance and bidding strategy, helped me out during the development process.
+
+Shreyes Jishnu: Coded a little on first attempt at opponent modelling, helped out on all the reports.
+
+Tóth Bendéguz: Helped with the literature on the earlier reports and tested the agent for the final report.
+
+Tim Brouwer: Helped writing the first two reports but left the group unexpectedly. :(
+
+Gustavo Luchetti (me): Coordinator, coded a lot of the bidding strategy and refactored Sergio's code for the acceptance strategy.
+
+Group was good! Everyone wrote a little for the last report, I feel like I could've delegated the issues between members a bit better, but the group worked well, especially in the last few days where everyone was eager to get things done. 

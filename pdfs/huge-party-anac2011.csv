@@ -1,0 +1,23 @@
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,Opponent,K2,BRAM,Gahboninho,IAMHaggler
+,,Our Utility Avg,88%,87%,64%,91%
+,,Their Utility Avg,85%,82%,98%,81%
+,,Social Welfare,173.38,168.96,163.68,171.45
+,,Pareto D,0.0197,0.0309,0.0040,0.0206
+,,Nash D,0.0896,0.1292,0.2580,0.1036
+,,% Agreement,97.14%,100.00%,72.86%,92.86%
+,,,,,,
+,,Opponent,KLH,NiceTitForTat,Negotiator,ValueModelAgent
+,,Our Utility Avg,75%,81%,87%,81%
+,,Their Utility Avg,96%,86%,85%,92%
+,,Social Welfare,170.65,168.21,171.22,173.32
+,,Pareto D,0.0018,0.0204,0.0216,0.0033
+,,Nash D,0.1604,0.1491,0.1100,0.0934
+,,% Agreement,78.57%,100.00%,100.00%,97.14%
